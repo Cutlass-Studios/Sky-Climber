@@ -1,10 +1,12 @@
 Additions to WeegeeJump
+-Boxes generated randomly
+-Wrapping edges (X axis)
+-Blocks decay when on for too long
+-lock to landscape
 
+Finished
 -JumpCounter
 -Only jump when on ground
 -Android controls
 -Camera follows player in Y
 -Not falling off edge
--Wrapping edges (X axis)
--Blocks decay when on for too long
--lock to landscape
