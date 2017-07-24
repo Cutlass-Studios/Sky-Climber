@@ -1,5 +1,4 @@
 Additions to WeegeeJump
-- Main menu
 - Back button
 - Credits menu
 - Death menu
@@ -15,3 +14,4 @@ Finished
 - Create coin trail
 - Change high score
 - Coin counter
+- Main menu

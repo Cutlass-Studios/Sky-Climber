@@ -199,7 +199,7 @@ public class Weegee : MonoBehaviour
         {
             randX = random.Next((int)(lastX - 7), (int)(lastX + 7));
 
-        } while (randX > 9 || randX < -9);
+        } while (randX > 8 || randX < - 8);
 
 
         float randY = random.Next(-1, 0);
