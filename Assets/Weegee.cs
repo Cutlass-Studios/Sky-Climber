@@ -37,8 +37,8 @@ public class Weegee : MonoBehaviour {
 
     private void Start()
     {
-		
-      high =  PlayerPrefs.GetInt("highscore", high);
+        Screen.orientation = ScreenOrientation.Landscape;
+        high =  PlayerPrefs.GetInt("highscore", high);
         highScore.text = "Highscore: " + high;
         setScore();
     
