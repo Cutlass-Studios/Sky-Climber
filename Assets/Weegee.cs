@@ -4,10 +4,11 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public class Weegee : MonoBehaviour {
+public class Weegee : MonoBehaviour
+{
 
 
-    
+
     public bool facingRight = true;
     public int playerSpeed = 10;
     public int playerJumpPower = 30;
@@ -20,56 +21,63 @@ public class Weegee : MonoBehaviour {
     public int level = 0;
     public int blockNum = 1;
     //checks to make sure level doesnt happen twice 
-   public int levelCheck = 0;
+    public int levelCheck = 0;
     //lastX is position of previous block so next block is within jumping distance
     float lastX = 0;
     //Stores text for score and high score
-    public Text countText,highScore;
+    public Text countText, highScore;
     int high = 0;
-	public Sprite jump;
-	public Sprite idle;
-	public AudioSource audio1;
-	public AudioSource audio2;
-	public AudioClip die;
-	public AudioClip jumpSound;
-	public AudioClip yahoo;
-    
+    public Sprite jump;
+    public Sprite idle;
+    public AudioSource audio1;
+    public AudioSource audio2;
+    public AudioClip die;
+    public AudioClip jumpSound;
+    public AudioClip yahoo;
+    public Sprite[] blockTypes;
+    public AudioClip coinSound;
+    public GameObject coin;
+    public bool falling;
+
+
 
     private void Start()
     {
         Screen.orientation = ScreenOrientation.Landscape;
-        high =  PlayerPrefs.GetInt("highscore", high);
+
+        high = PlayerPrefs.GetInt("highscore", high);
         highScore.text = "Highscore: " + high;
         setScore();
-    
+        spawnBlock(0);
+        spawnBlock(-4);
+        falling = false;
+        //put me out of ,my misderuyy54e[s uot5his
     }
 
 
     // Update is called once per frame
-    public void Update () {
-		
-		if (jumpCount > 0)
-			gameObject.GetComponent<SpriteRenderer> ().sprite = jump;
-		else
-			gameObject.GetComponent<SpriteRenderer> ().sprite = idle;
+    public void Update()
+    {
+        if (jumpCount > 0)
+            gameObject.GetComponent<SpriteRenderer>().sprite = jump;
+        else
+            gameObject.GetComponent<SpriteRenderer>().sprite = idle;
+
+
         int lastLevel = level;
-        level = (int) Math.Floor(gameObject.GetComponent<Rigidbody2D>().position.y)/4 +2;
+        level = (int)Math.Floor(gameObject.GetComponent<Rigidbody2D>().position.y) / 4 + 2;
 
         //checks if it goes up a level. doesjnt check going down then going back up
-        if (level > lastLevel)
+        if (level > lastLevel && level > levelCheck)
         {
-
-            if (level > levelCheck)
-            {
-                levelCheck = level;
-                spawnBlock();
-                setScore();
-                moveCloud();
-            }
+            levelCheck = level;
+            spawnBlock();
+            setScore();
+            moveCloud();
         }
         DoubleJumpCheck();
         CameraMove();
-      
+        spawnCoin();
         //Used for keyboard testing (can be removed)
         if (Input.GetButtonDown("JumpKeyboard")) Jump();
         if (Input.GetButtonDown("LeftKeyboard")) MoveLeft();
@@ -79,7 +87,30 @@ public class Weegee : MonoBehaviour {
         MovePlayer();
         //resets when player dies
         Reset();
-     
+
+    }
+
+    public void spawnCoin()
+    {
+
+        //Compares Weegee's position to lowest block (off screen)
+        if (GameObject.Find("Block #" + (blockNum - 4)) != null)
+        {
+            float blockY = GameObject.Find("Block #" + (blockNum - 4)).GetComponent<Transform>().position.y;
+            if (gameObject.GetComponent<Rigidbody2D>().position.y < blockY && !falling && levelCheck > 10)
+            {
+                falling = true;
+
+                for (int i = (int)blockY; i > 0; i--)
+                {
+                    Instantiate(coin, new Vector3((float) Math.Sin((double)i / 15.0) * 9, i, 0), Quaternion.identity);
+                }
+
+
+                Debug.Log("RUN");
+            }
+        }
+
     }
 
     public void MovePlayer()
@@ -102,19 +133,19 @@ public class Weegee : MonoBehaviour {
         {
             jumpCount = 0;
         }
-        if(thisY <0 && jumpCount == 0)
+        if (thisY < 0 && jumpCount == 0)
         {
             jumpCount = 1;
         }
     }
 
-    public void CameraMove ()
+    public void CameraMove()
     {
         cam = GameObject.Find("Main Camera");
         //Camera doesn't move down if Weegee is below
-     //if(gameObject.GetComponent<Rigidbody2D>().position.y > cam.GetComponent<Transform>().position.y)
+        //if(gameObject.GetComponent<Rigidbody2D>().position.y > cam.GetComponent<Transform>().position.y)
         cam.GetComponent<Transform>().position = new Vector3(cam.GetComponent<Transform>().position.x, gameObject.GetComponent<Rigidbody2D>().position.y, cam.GetComponent<Transform>().position.z);
-        
+
     }
 
     public void MoveLeft()
@@ -126,7 +157,7 @@ public class Weegee : MonoBehaviour {
         }
 
     }
-  
+
     public void Stop()
     {
         isMovingLeft = false;
@@ -144,45 +175,88 @@ public class Weegee : MonoBehaviour {
 
     public void spawnBlock()
     {
-      //  if (Input.GetKeyDown(KeyCode.P))
-      //  {
-            GameObject oldBlock = GameObject.Find("mc_dirt (15)");
-            GameObject mainBlock = GameObject.Find("mc_dirt");
-            System.Random random = new System.Random();
+        //  if (Input.GetKeyDown(KeyCode.P))
+        //  {
+        GameObject oldBlock = GameObject.Find("mc_dirt (14)");
+        GameObject mainBlock = GameObject.Find("mc_dirt");
+        System.Random random = new System.Random();
 
         float randX;
 
-      
+
         do
         {
             randX = random.Next((int)(lastX - 7), (int)(lastX + 7));
-           
+
         } while (randX > 9 || randX < -9);
 
-        
-        float randY = random.Next(-1, 0);
-   
-            Vector3 oldBlockVector = new Vector3(randX, level * 4 + randY, 0);
-            GameObject block = (GameObject)Instantiate(oldBlock, oldBlockVector, Quaternion.identity, mainBlock.transform);
-            block.name = "Block #" + blockNum;
-            blockNum++;
-         if(level >= 6)
-        Destroy( GameObject.Find("Block #" + (level-5)));
 
-       lastX = randX;
-       
+        float randY = random.Next(-1, 0);
+
+        Vector3 oldBlockVector = new Vector3(randX, level * 4 + randY, 0);
+        GameObject block = (GameObject)Instantiate(oldBlock, oldBlockVector, Quaternion.identity, mainBlock.transform);
+        block.name = "Block #" + blockNum;
+        if (blockNum > 180)
+        {
+            block.GetComponent<SpriteRenderer>().sprite = blockTypes[8];
+        }
+        else
+            block.GetComponent<SpriteRenderer>().sprite = blockTypes[blockNum / 20];
+        blockNum++;
+        if (level >= 3)
+            Destroy(GameObject.Find("Block #" + (level - 3)));
+
+        lastX = randX;
+
+    }
+    //aids
+    public void spawnBlock(int y)
+    {
+        //  if (Input.GetKeyDown(KeyCode.P))
+        //  {
+        GameObject oldBlock = GameObject.Find("mc_dirt (14)");
+        GameObject mainBlock = GameObject.Find("mc_dirt");
+        System.Random random = new System.Random();
+
+        float randX;
+
+
+        do
+        {
+            randX = random.Next((int)(lastX - 7), (int)(lastX + 7));
+
+        } while (randX > 9 || randX < -9);
+
+
+        float randY = random.Next(-1, 0);
+
+        Vector3 oldBlockVector = new Vector3(randX, level * 4 + randY - y, 0);
+        GameObject block = (GameObject)Instantiate(oldBlock, oldBlockVector, Quaternion.identity, mainBlock.transform);
+        block.name = "Block #" + blockNum;
+        if (blockNum - 2 > 180)
+        {
+            block.GetComponent<SpriteRenderer>().sprite = blockTypes[8];
+        }
+        else
+            block.GetComponent<SpriteRenderer>().sprite = blockTypes[(blockNum - 2) / 20];
+        blockNum++;
+        if (level >= 6)
+            Destroy(GameObject.Find("Block #" + (level - 5)));
+
+        lastX = randX;
+
     }
 
     public void Jump()
     {
-        if (jumpCount <2)
+        if (jumpCount < 2)
         {
-			audio1.clip = jumpSound;
-			audio1.Play ();
+            audio1.clip = jumpSound;
+            audio1.Play();
             GetComponent<Rigidbody2D>().velocity = new Vector2(gameObject.GetComponent<Rigidbody2D>().velocity.x, playerJumpPower);
             jumpCount++;
-        }  
-               
+        }
+
     }
 
     void FlipPlayer()
@@ -195,47 +269,69 @@ public class Weegee : MonoBehaviour {
     //reset
     public void Reset()
     {
-       
-       
-        if (levelCheck > 3 && gameObject.GetComponent<Rigidbody2D>().position.y <= -2) {
-			audio2.clip = die;
-			audio2.Play ();
+        if (levelCheck > 2 && gameObject.GetComponent<Rigidbody2D>().position.y <= -2.0f)
+        {
+
+            audio2.clip = die;
+            audio2.Play();
+            levelCheck = blockNum;
             while (levelCheck > 0)
             {
                 Destroy(GameObject.Find("Block #" + (levelCheck)));
                 levelCheck--;
             }
             levelCheck = 0;
-            
+
             level = 0;
-        	blockNum = 1;
+            blockNum = 1;
+            spawnBlock(0);
+            spawnBlock(-4);
+            falling = false;
+
+            GameObject[] objs = GameObject.FindGameObjectsWithTag("Coin");
+            foreach (GameObject target in objs)
+            {
+                GameObject.Destroy(target);
+            }
+        }
 
     }
-    }
-    
+
 
     //sets text for score
     public void setScore()
     {
-        countText.text = "Score: " +(blockNum-2).ToString();
-        if (blockNum-2 > high)
+        countText.text = "Score: " + (blockNum - 4).ToString();
+        if (blockNum - 2 > high)
         {
             highScore.text = "Highscore: " + (blockNum - 2);
             high = blockNum - 2;
             PlayerPrefs.SetInt("highscore", high);
         }
-		if ((blockNum - 2) % 10 == 0 && (blockNum - 2) != 0) {
-			audio2.clip = yahoo;
-			audio2.Play();           
-          }
+        if ((blockNum - 4) % 10 == 0 && (blockNum - 4) != 0)
+        {
+            audio2.clip = yahoo;
+            audio2.Play();
+        }
     }
     //moves cloud above luigi for """"realism""""
     public void moveCloud()
     {
-        if ((blockNum - 2) % 4 == 0 && (blockNum - 2) != 0) { 
-        System.Random random = new System.Random();
-        int randX = random.Next(-8, 8);
-        GameObject.Find("cloud").GetComponent<Transform>().position = new Vector3(randX, gameObject.GetComponent<Rigidbody2D>().position.y + 7, 0);
+        if ((blockNum - 2) % 4 == 0 && (blockNum - 2) != 0)
+        {
+            System.Random random = new System.Random();
+            int randX = random.Next(-8, 8);
+            GameObject.Find("cloud").GetComponent<Transform>().position = new Vector3(randX, gameObject.GetComponent<Rigidbody2D>().position.y + 7, 1);
+        }
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Coin")
+        {
+            Destroy(collision.gameObject);
+            audio2.clip = coinSound;
+            audio2.Play();
+        }
     }
 }

@@ -1,0 +1,15 @@
+Additions to WeegeeJump
+- Main menu
+- Back button
+- Credits menu
+- Death menu
+- Coin counter
+- Running animation
+
+Finished
+- Blocks change every 20 levels
+- Delete unecessary block on the right
+- Created coin
+- Destroy two original blocks
+- Instantiate blocks on level start
+- Create coin trail
