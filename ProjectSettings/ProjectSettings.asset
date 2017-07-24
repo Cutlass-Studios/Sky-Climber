@@ -6,7 +6,7 @@ PlayerSettings:
   serializedVersion: 12
   productGUID: 26ea858496616414999c9dd952780b76
   AndroidProfiler: 0
-  defaultScreenOrientation: 4
+  defaultScreenOrientation: 2
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
@@ -138,7 +138,7 @@ PlayerSettings:
       depthFormat: 1
   protectGraphicsMemory: 0
   useHDRDisplay: 0
-  targetPixelDensity: 0
+  targetPixelDensity: 200
   resolutionScalingMode: 0
   applicationIdentifier:
     Android: com.cutlassstudios.test

@@ -3,8 +3,8 @@ Additions to WeegeeJump
 - Back button
 - Credits menu
 - Death menu
-- Coin counter
 - Running animation
+
 
 Finished
 - Blocks change every 20 levels
@@ -13,3 +13,5 @@ Finished
 - Destroy two original blocks
 - Instantiate blocks on level start
 - Create coin trail
+- Change high score
+- Coin counter

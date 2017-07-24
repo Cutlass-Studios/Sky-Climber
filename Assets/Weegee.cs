@@ -25,7 +25,7 @@ public class Weegee : MonoBehaviour
     //lastX is position of previous block so next block is within jumping distance
     float lastX = 0;
     //Stores text for score and high score
-    public Text countText, highScore;
+    public Text countText, highScore, totalCoins;
     int high = 0;
     public Sprite jump;
     public Sprite idle;
@@ -38,15 +38,20 @@ public class Weegee : MonoBehaviour
     public AudioClip coinSound;
     public GameObject coin;
     public bool falling;
+    public int coins;
+    public GameObject gameButtons;
+    public GameObject playButton;
 
 
 
     private void Start()
     {
         Screen.orientation = ScreenOrientation.Landscape;
-
+        gameButtons.SetActive(false);
         high = PlayerPrefs.GetInt("highscore", high);
+        coins = PlayerPrefs.GetInt("coins", coins);
         highScore.text = "Highscore: " + high;
+        totalCoins.text = "Coins: " + coins;
         setScore();
         spawnBlock(0);
         spawnBlock(-4);
@@ -88,6 +93,12 @@ public class Weegee : MonoBehaviour
         //resets when player dies
         Reset();
 
+    }
+
+    public void Play()
+    {
+        gameButtons.SetActive(true);
+        playButton.SetActive(false);
     }
 
     public void spawnCoin()
@@ -225,7 +236,7 @@ public class Weegee : MonoBehaviour
         {
             randX = random.Next((int)(lastX - 7), (int)(lastX + 7));
 
-        } while (randX > 9 || randX < -9);
+        } while (randX > 9|| randX < -9);
 
 
         float randY = random.Next(-1, 0);
@@ -302,10 +313,11 @@ public class Weegee : MonoBehaviour
     public void setScore()
     {
         countText.text = "Score: " + (blockNum - 4).ToString();
-        if (blockNum - 2 > high)
+        PlayerPrefs.SetInt("coins", coins);
+        if (blockNum - 4 > high)
         {
-            highScore.text = "Highscore: " + (blockNum - 2);
-            high = blockNum - 2;
+            highScore.text = "Highscore: " + (blockNum - 4);
+            high = blockNum - 4;
             PlayerPrefs.SetInt("highscore", high);
         }
         if ((blockNum - 4) % 10 == 0 && (blockNum - 4) != 0)
@@ -329,6 +341,8 @@ public class Weegee : MonoBehaviour
     {
         if (collision.gameObject.tag == "Coin")
         {
+            coins++;
+            totalCoins.text = "Coins: " + coins.ToString();
             Destroy(collision.gameObject);
             audio2.clip = coinSound;
             audio2.Play();
