@@ -33,11 +33,12 @@ public class Weegee : MonoBehaviour {
 	public AudioClip die;
 	public AudioClip jumpSound;
 	public AudioClip yahoo;
+    
 
     private void Start()
     {
-		
-      high =  PlayerPrefs.GetInt("highscore", high);
+        Screen.orientation = ScreenOrientation.Landscape;
+        high =  PlayerPrefs.GetInt("highscore", high);
         highScore.text = "Highscore: " + high;
         setScore();
     
@@ -62,6 +63,8 @@ public class Weegee : MonoBehaviour {
             {
                 levelCheck = level;
                 spawnBlock();
+                setScore();
+                moveCloud();
             }
         }
         DoubleJumpCheck();
@@ -76,6 +79,7 @@ public class Weegee : MonoBehaviour {
         MovePlayer();
         //resets when player dies
         Reset();
+     
     }
 
     public void MovePlayer()
@@ -108,7 +112,7 @@ public class Weegee : MonoBehaviour {
     {
         cam = GameObject.Find("Main Camera");
         //Camera doesn't move down if Weegee is below
-        //if(gameObject.GetComponent<Rigidbody2D>().position.y > camera.GetComponent<Transform>().position.y)
+     //if(gameObject.GetComponent<Rigidbody2D>().position.y > cam.GetComponent<Transform>().position.y)
         cam.GetComponent<Transform>().position = new Vector3(cam.GetComponent<Transform>().position.x, gameObject.GetComponent<Rigidbody2D>().position.y, cam.GetComponent<Transform>().position.z);
         
     }
@@ -166,7 +170,7 @@ public class Weegee : MonoBehaviour {
         Destroy( GameObject.Find("Block #" + (level-5)));
 
        lastX = randX;
-        setScore();
+       
     }
 
     public void Jump()
@@ -214,7 +218,7 @@ public class Weegee : MonoBehaviour {
     public void setScore()
     {
         countText.text = "Score: " +(blockNum-2).ToString();
-        if (blockNum > high)
+        if (blockNum-2 > high)
         {
             highScore.text = "Highscore: " + (blockNum - 2);
             high = blockNum - 2;
@@ -222,7 +226,16 @@ public class Weegee : MonoBehaviour {
         }
 		if ((blockNum - 2) % 10 == 0 && (blockNum - 2) != 0) {
 			audio2.clip = yahoo;
-			audio2.Play();
-		}
+			audio2.Play();           
+          }
+    }
+    //moves cloud above luigi for """"realism""""
+    public void moveCloud()
+    {
+        if ((blockNum - 2) % 4 == 0 && (blockNum - 2) != 0) { 
+        System.Random random = new System.Random();
+        int randX = random.Next(-8, 8);
+        GameObject.Find("cloud").GetComponent<Transform>().position = new Vector3(randX, gameObject.GetComponent<Rigidbody2D>().position.y + 7, 0);
+    }
     }
 }
