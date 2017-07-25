@@ -25,7 +25,7 @@ public class Weegee : MonoBehaviour
     //lastX is position of previous block so next block is within jumping distance
     float lastX = 0;
     //Stores text for score and high score
-    public Text countText, highScore, totalCoins;
+    public Text countText, highScore, totalCoins, deathScore, deathHigh;
     int high = 0;
     public Sprite jump;
     public Sprite idle;
@@ -40,29 +40,56 @@ public class Weegee : MonoBehaviour
     public bool falling;
     public int coins;
     public GameObject gameButtons;
-    public GameObject playButton;
-
-
+    public GameObject mainMenu;
+    public GameObject deathMenu;
+    public Sprite muted, soundOn;
+    public bool sound;
+    public GameObject bigJump;
+    public float startTime;
+    public Text timerText;
 
     private void Start()
     {
         Screen.orientation = ScreenOrientation.Landscape;
         gameButtons.SetActive(false);
+        deathMenu.SetActive(false);
+        mainMenu.SetActive(true);
+        timerText.gameObject.SetActive(false);
         high = PlayerPrefs.GetInt("highscore", high);
         coins = PlayerPrefs.GetInt("coins", coins);
         highScore.text = "Highscore: " + high;
         totalCoins.text = "Coins: " + coins;
         setScore();
-        spawnBlock(0);
-        spawnBlock(-4);
         falling = false;
-        //put me out of ,my misderuyy54e[s uot5his
     }
 
+    public void toggleSound()
+    {
+        if (sound)
+        {
+            mainMenu.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = muted;
+            
+        }
+        else
+        {
+            mainMenu.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = soundOn;
+        }
+        sound = !sound;
+        audio1.mute = !audio1.mute;
+        audio2.mute = !audio2.mute;
+    }
 
     // Update is called once per frame
     public void Update()
     {
+
+        if (startTime + 10 <= Time.realtimeSinceStartup && playerJumpPower > 30)
+        {
+            timerText.gameObject.SetActive(false);
+            playerJumpPower = 30;
+        }
+        if (playerJumpPower > 30) timerText.text = ((int) (startTime + 10 - Time.realtimeSinceStartup)).ToString();
+
         if (jumpCount > 0)
             gameObject.GetComponent<SpriteRenderer>().sprite = jump;
         else
@@ -76,7 +103,13 @@ public class Weegee : MonoBehaviour
         if (level > lastLevel && level > levelCheck)
         {
             levelCheck = level;
-            spawnBlock();
+
+            if (gameButtons.activeInHierarchy)
+            {
+                Debug.Log("ACTIVE");
+                spawnBlock(0);
+            }
+
             setScore();
             moveCloud();
         }
@@ -98,7 +131,12 @@ public class Weegee : MonoBehaviour
     public void Play()
     {
         gameButtons.SetActive(true);
-        playButton.SetActive(false);
+        deathMenu.SetActive(false);
+        mainMenu.SetActive(false);
+        spawnBlock(8);
+        spawnBlock(4);
+        spawnBlock(0);
+
     }
 
     public void spawnCoin()
@@ -114,7 +152,7 @@ public class Weegee : MonoBehaviour
 
                 for (int i = (int)blockY; i > 0; i--)
                 {
-                    Instantiate(coin, new Vector3((float) Math.Sin((double)i / 15.0) * 9, i, 0), Quaternion.identity);
+                    Instantiate(coin, new Vector3((float)Math.Sin((double)i / 15.0) * 8, i, 0), Quaternion.identity);
                 }
 
 
@@ -122,6 +160,11 @@ public class Weegee : MonoBehaviour
             }
         }
 
+    }
+
+    public void spawnBigJump(float x, float y)
+    {
+        Instantiate(bigJump, new Vector3(x, y, 0) , Quaternion.identity);
     }
 
     public void MovePlayer()
@@ -184,43 +227,6 @@ public class Weegee : MonoBehaviour
         }
     }
 
-    public void spawnBlock()
-    {
-        //  if (Input.GetKeyDown(KeyCode.P))
-        //  {
-        GameObject oldBlock = GameObject.Find("mc_dirt (14)");
-        GameObject mainBlock = GameObject.Find("mc_dirt");
-        System.Random random = new System.Random();
-
-        float randX;
-
-
-        do
-        {
-            randX = random.Next((int)(lastX - 7), (int)(lastX + 7));
-
-        } while (randX > 8 || randX < - 8);
-
-
-        float randY = random.Next(-1, 0);
-
-        Vector3 oldBlockVector = new Vector3(randX, level * 4 + randY, 0);
-        GameObject block = (GameObject)Instantiate(oldBlock, oldBlockVector, Quaternion.identity, mainBlock.transform);
-        block.name = "Block #" + blockNum;
-        if (blockNum > 180)
-        {
-            block.GetComponent<SpriteRenderer>().sprite = blockTypes[8];
-        }
-        else
-            block.GetComponent<SpriteRenderer>().sprite = blockTypes[blockNum / 20];
-        blockNum++;
-        if (level >= 3)
-            Destroy(GameObject.Find("Block #" + (level - 3)));
-
-        lastX = randX;
-
-    }
-    //aids
     public void spawnBlock(int y)
     {
         //  if (Input.GetKeyDown(KeyCode.P))
@@ -236,7 +242,7 @@ public class Weegee : MonoBehaviour
         {
             randX = random.Next((int)(lastX - 7), (int)(lastX + 7));
 
-        } while (randX > 9|| randX < -9);
+        } while (randX > 8 || randX < -8);
 
 
         float randY = random.Next(-1, 0);
@@ -244,16 +250,19 @@ public class Weegee : MonoBehaviour
         Vector3 oldBlockVector = new Vector3(randX, level * 4 + randY - y, 0);
         GameObject block = (GameObject)Instantiate(oldBlock, oldBlockVector, Quaternion.identity, mainBlock.transform);
         block.name = "Block #" + blockNum;
-        if (blockNum - 2 > 180)
+        if (blockNum % 10 == 0)
+        {
+            spawnBigJump(block.GetComponent<Transform>().position.x, block.GetComponent<Transform>().position.y + 2);
+        }
+        if (levelCheck - 2 > 180)
         {
             block.GetComponent<SpriteRenderer>().sprite = blockTypes[8];
         }
         else
-            block.GetComponent<SpriteRenderer>().sprite = blockTypes[(blockNum - 2) / 20];
+            block.GetComponent<SpriteRenderer>().sprite = blockTypes[(levelCheck) / 20];
         blockNum++;
-        if (level >= 6)
-            Destroy(GameObject.Find("Block #" + (level - 5)));
-
+        if (level >= 4)
+            Destroy(GameObject.Find("Block #" + (level - 3)));
         lastX = randX;
 
     }
@@ -282,6 +291,7 @@ public class Weegee : MonoBehaviour
     {
         if (levelCheck > 2 && gameObject.GetComponent<Rigidbody2D>().position.y <= -2.0f)
         {
+            deathScore.text = "Score: " + (levelCheck - 2);
 
             audio2.clip = die;
             audio2.Play();
@@ -295,8 +305,6 @@ public class Weegee : MonoBehaviour
 
             level = 0;
             blockNum = 1;
-            spawnBlock(0);
-            spawnBlock(-4);
             falling = false;
 
             GameObject[] objs = GameObject.FindGameObjectsWithTag("Coin");
@@ -304,6 +312,10 @@ public class Weegee : MonoBehaviour
             {
                 GameObject.Destroy(target);
             }
+            deathMenu.SetActive(true);
+            gameButtons.SetActive(false);
+            deathHigh.text = "Highscore: " + (high);
+            playerJumpPower = 30;
         }
 
     }
@@ -312,15 +324,17 @@ public class Weegee : MonoBehaviour
     //sets text for score
     public void setScore()
     {
-        countText.text = "Score: " + (blockNum - 4).ToString();
+
+        int tempScore = levelCheck - 2;
+        countText.text = "Score: " + (tempScore).ToString();
         PlayerPrefs.SetInt("coins", coins);
-        if (blockNum - 4 > high)
+        if (tempScore > high)
         {
-            highScore.text = "Highscore: " + (blockNum - 4);
-            high = blockNum - 4;
+            highScore.text = "Highscore: " + (tempScore);
+            high = tempScore;
             PlayerPrefs.SetInt("highscore", high);
         }
-        if ((blockNum - 4) % 10 == 0 && (blockNum - 4) != 0)
+        if ((tempScore) % 10 == 0 && (tempScore) != 0)
         {
             audio2.clip = yahoo;
             audio2.Play();
@@ -337,9 +351,27 @@ public class Weegee : MonoBehaviour
         }
     }
 
+    public void goToMenu()
+    {
+        gameButtons.SetActive(false);
+        deathMenu.SetActive(false);
+        mainMenu.SetActive(true);
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Coin")
+
+        if (collision.gameObject.CompareTag("bigJumps"))
+        {
+            timerText.gameObject.SetActive(true);
+            Destroy(collision.gameObject);
+            startTime = Time.realtimeSinceStartup;
+            playerJumpPower = 45;
+            audio2.clip = coinSound;
+            audio2.Play();
+
+        }
+        if (collision.gameObject.CompareTag("Coin"))
         {
             coins++;
             totalCoins.text = "Coins: " + coins.ToString();

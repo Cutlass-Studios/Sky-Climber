@@ -3,6 +3,7 @@ Additions to WeegeeJump
 - Credits menu
 - Death menu
 - Running animation
+- Fix blocks getting cut off
 
 
 Finished
