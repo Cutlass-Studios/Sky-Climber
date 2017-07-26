@@ -1,0 +1,12 @@
+Additions to WeegeeJump
+- Credits menu
+- Shop
+- Moving platforms
+- Running animation
+- Infinite Jumps Powerup
+- Double Score Powerup
+- Countdown Timer For Powerup Integration
+- Left and right press simultaneously
+
+
+Finished

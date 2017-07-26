@@ -6,6 +6,7 @@ Additions to WeegeeJump
 - Infinite Jumps Powerup
 - Double Score Powerup
 - Countdown Timer For Powerup Integration
+-Left and right press
 
 
 Finished

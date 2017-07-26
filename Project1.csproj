@@ -87,6 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CameraCrop.cs" />
     <Compile Include="Assets\CustomInput.cs" />
     <Compile Include="Assets\Movement.cs" />
     <Compile Include="Assets\Weegee.cs" />

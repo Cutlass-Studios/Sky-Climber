@@ -18,6 +18,8 @@ public class Weegee : MonoBehaviour
     private float thisY = 0.0f;
     //Used to limit the amount of times Weegee can Jump
     public int jumpCount = 0;
+    public int jumpLimit = 2;
+    public int scoreMultiplier = 1;
     //Animations
     public Sprite jump;
     public Sprite idle;
@@ -29,10 +31,14 @@ public class Weegee : MonoBehaviour
     //Collectables
     public GameObject bigJump;
     public GameObject coin;
+    public GameObject unlimitedJump;
+    public GameObject doubleScore;
     //Menus
     public GameObject gameButtons;
     public GameObject mainMenu;
     public GameObject deathMenu;
+    public GameObject powerUp;
+    public GameObject shopMenu;
     //Sounds
     //Responsible for fucking nothing, kys chris
     public AudioSource audio1;
@@ -44,12 +50,14 @@ public class Weegee : MonoBehaviour
     public AudioClip coinSound;
     //Textures
     public Sprite[] blockTypes;
+    public Sprite[] powerUps;
     public Sprite muted, soundOn;
 
     //--- GAME LOGIC ---
     public int level = 0;
     public int blockNum = 1;
     public bool falling;
+    protected int score=-2;
     //Used to make sure Weegee doesn't drop down to a previous level and go back up to a new level in attempt to increase the level
     public int levelCheck = 0;
     //lastX is position of previous block so next block is within jumping distance
@@ -61,6 +69,7 @@ public class Weegee : MonoBehaviour
     //used to display the highscore and number of coins found in the PlayerPrefs (these values are stored in memory)
     public int high = 0;
     public int coins;
+    public Animator anim;
 
 
 
@@ -75,18 +84,27 @@ public class Weegee : MonoBehaviour
         deathMenu.SetActive(false);
         mainMenu.SetActive(true);
         timerText.gameObject.SetActive(false);
+        anim.Play("idle");
 
         //Retrieve highscore and coins from memory, and then display them
         high = PlayerPrefs.GetInt("highscore", high);
         coins = PlayerPrefs.GetInt("coins", coins);
         highScore.text = "Highscore: " + high;
-        totalCoins.text = "Coins: " + coins;
+        totalCoins.text = ""+ coins;
 
         //Set the Score (will be zero because the game just started)
         setScore();
         falling = false; //NOTE: be set when instantiated
     }
+    public void OpenShop()
+    {
+        shopMenu.SetActive(true);
+        gameButtons.SetActive(false);
+        deathMenu.SetActive(false);
+        mainMenu.SetActive(false);
+        timerText.gameObject.SetActive(false);
 
+    }
     public void toggleSound()
     {
         //if sound is on, turn it off and vice versa
@@ -107,18 +125,42 @@ public class Weegee : MonoBehaviour
     // Update is called once per frame (60fps)
     public void Update()
     {
+
+        if (jumpCount > 0)
+        {
+            anim.Play("jump");
+        }
+        else if (isMovingLeft || isMovingRight)
+        {
+            anim.Play("walk");
+        }
+        else anim.Play("idle");
         //If the time since start exceeds 10 seconds after a powerup is taken (10s limit), AND the BigJumps Powerup is active, remove timer and limit playerJumpPower
-        if (startTime + 10 <= Time.realtimeSinceStartup && playerJumpPower > 30)
+        if (startTime + 5 <= Time.realtimeSinceStartup && playerJumpPower > 30)
         {
             timerText.gameObject.SetActive(false);
             playerJumpPower = 30;
         }
-
-        //If a player has a bigJumps Powerup, enable a timer which countsdown from 10, only displays int
-        if (playerJumpPower > 30)
+        if (startTime + 4 <= Time.realtimeSinceStartup && jumpLimit > 2)
         {
-            timerText.text = ((int)(startTime + 10 - Time.realtimeSinceStartup)).ToString();
+            timerText.gameObject.SetActive(false);
+            jumpLimit = 2;
         }
+        if (startTime + 10 <= Time.realtimeSinceStartup && scoreMultiplier > 1)
+        {
+            timerText.gameObject.SetActive(false);
+            scoreMultiplier = 1;
+        }
+
+        //If a player has a Powerup, enable a timer which countsdown from 10, only displays int
+        if (scoreMultiplier > 1)
+        {
+            timerText.text = ((int)(startTime + 11 - Time.realtimeSinceStartup)).ToString();
+        }
+        if(playerJumpPower > 30)
+            timerText.text = ((int)(startTime + 6 - Time.realtimeSinceStartup)).ToString();
+        if (jumpLimit > 2)
+            timerText.text = ((int)(startTime + 5 - Time.realtimeSinceStartup)).ToString();
 
         //Change sprites depending if Weegee is mid jump
         if (jumpCount > 0)
@@ -201,18 +243,37 @@ public class Weegee : MonoBehaviour
                 {
                     Instantiate(coin, new Vector3((float)Math.Sin((double)i / 15.0) * 8, i, 0), Quaternion.identity);
                 }
-
-
-                Debug.Log("RUN");
+                disablePowerUps();
+               
             }
         }
+
+    }
+    public void disablePowerUps()
+    {
+        deleteCollectibles("bigJumps");
+        deleteCollectibles("doubleScore");
+        deleteCollectibles("unlimitedJumps");
+        timerText.gameObject.SetActive(false);
+        playerJumpPower = 30;         
+            jumpLimit = 2;          
+            scoreMultiplier = 1;
 
     }
 
     //A BigJump powerup is instantiated at given coordinates.
     public void spawnBigJump(float x, float y)
     {
-        Instantiate(bigJump, new Vector3(x, y, 0), Quaternion.identity);
+         System.Random random = new System.Random();
+
+        float tempRand =  (int)random.Next(0, 3);
+       // Debug.Log(tempRand);
+       if(tempRand ==0)
+            Instantiate(bigJump, new Vector3(x, y, 0), Quaternion.identity);
+      if(tempRand==1)
+            Instantiate(unlimitedJump, new Vector3(x, y, 0), Quaternion.identity);
+        if (tempRand==2)
+            Instantiate(doubleScore, new Vector3(x, y, 0), Quaternion.identity);
     }
 
     //constantly check if player is giving input, if so, move the player.
@@ -268,7 +329,7 @@ public class Weegee : MonoBehaviour
         {
             FlipPlayer();
         }
-
+        
     }
 
     //similar to moveLeft
@@ -279,6 +340,7 @@ public class Weegee : MonoBehaviour
         {
             FlipPlayer();
         }
+        
     }
 
     //Called when direcetional key is released, to stop weegee's position. assumes both directions are never pressed together.
@@ -317,9 +379,9 @@ public class Weegee : MonoBehaviour
         block.name = "Block #" + blockNum;
 
         //every 10 blocks, spawn a bigJump powerup 2 above the block's y
-        if (blockNum % 10 == 0)
+       if (blockNum % 20 == 0)
         {
-            spawnBigJump(block.GetComponent<Transform>().position.x, block.GetComponent<Transform>().position.y + 2);
+         spawnBigJump(block.GetComponent<Transform>().position.x, block.GetComponent<Transform>().position.y + 2);
         }
 
         //Set the sprites of the blocks, changes every 20 score. after 180, will always be the same texture.
@@ -345,7 +407,7 @@ public class Weegee : MonoBehaviour
     //called when space/jump is pressed
     public void Jump()
     {
-        if (jumpCount < 2)
+        if (jumpCount < jumpLimit)
         {
             //play sound
             audio1.clip = jumpSound;
@@ -391,16 +453,17 @@ public class Weegee : MonoBehaviour
             levelCheck = 0;
             level = 0;
             blockNum = 1;
+            score = -1;
+            Stop();
             //player now on ground. 
             falling = false;
 
             //create an area for every game object with certain tag. destroys all these items. in this case destroys all coins (so player doesnt see them when going back up)
             deleteCollectibles("Coin");
-            deleteCollectibles("bigJumps");
+         
 
             //enables menus and makes sure that all powerups are set off. 
             deathMenu.SetActive(true);
-            timerText.gameObject.SetActive(false);
             gameButtons.SetActive(false);
             deathHigh.text = "Highscore: " + (high);
             playerJumpPower = 30;
@@ -423,22 +486,22 @@ public class Weegee : MonoBehaviour
     public void setScore()
     {
         //score is actually the player's highest level - 2. displays the score by changing the text
-        int tempScore = levelCheck - 2;
-        countText.text = "Score: " + (tempScore).ToString();
+        score = score + scoreMultiplier;
+        countText.text = (score).ToString();
 
         //store the new value of player's coins
         PlayerPrefs.SetInt("coins", coins);
 
         //if a player beats their highscore, set new highscore and store the data in playerprefs
-        if (tempScore > high)
+        if (score > high)
         {
-            highScore.text = "Highscore: " + (tempScore);
-            high = tempScore;
+            highScore.text = "Highscore: " + (score);
+            high = score;
             PlayerPrefs.SetInt("highscore", high);
         }
 
         //play a sound every 10 levels, aslong as you aren't on level 0
-        if ((tempScore) % 10 == 0 && (tempScore) != 0)
+        if ((score) % 10 == 0 && (score) != 0)
         {
             audio2.clip = yahoo;
             audio2.Play();
@@ -470,23 +533,38 @@ public class Weegee : MonoBehaviour
     {
         //If the object weegee collides with has a certain tag (similar to an assigned property, given in unity), execute the if statement
         //Collectables are destroyed upon being touched. 
-        if (collision.gameObject.CompareTag("bigJumps"))
+        if (collision.gameObject.CompareTag("bigJumps") || collision.gameObject.CompareTag("unlimitedJumps")
+            || collision.gameObject.CompareTag("doubleScore"))
         {
             timerText.gameObject.SetActive(true);
             Destroy(collision.gameObject);
             startTime = Time.realtimeSinceStartup;
-            playerJumpPower = 45;
             audio2.clip = coinSound;
             audio2.Play();
-
+        }
+        if (collision.gameObject.CompareTag("bigJumps"))
+        {
+            powerUp.GetComponent<Image>().sprite = powerUps[0];
+            playerJumpPower = 45;
+        }
+        if (collision.gameObject.CompareTag("unlimitedJumps"))
+        {
+            powerUp.GetComponent<Image>().sprite = powerUps[1];
+            jumpLimit = 2147483647;
+        }
+        if (collision.gameObject.CompareTag("doubleScore"))
+        {
+            powerUp.GetComponent<Image>().sprite = powerUps[2];
+            scoreMultiplier = 2;
         }
         if (collision.gameObject.CompareTag("Coin"))
         {
-            coins++;
-            totalCoins.text = "Coins: " + coins.ToString();
-            Destroy(collision.gameObject);
+             Destroy(collision.gameObject);
+            
             audio2.clip = coinSound;
             audio2.Play();
+            coins++;
+            totalCoins.text = coins.ToString();
         }
     }
 }
