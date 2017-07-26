@@ -35,8 +35,8 @@ public class Weegee : MonoBehaviour
     public GameObject deathMenu;
     //Sounds
     //Responsible for fucking nothing, kys chris
-    public AudioSource audio1; //NOTE: Redundant, audio1 is only used to play the jump sound, which weegee makes, just merge with audio2
-                               //Responsible for Handling collectable sounds (coins, powerups) and sounds Weegee Makes
+    public AudioSource audio1;
+    //Responsible for Handling collectable sounds (coins, powerups) and sounds Weegee Makes                           
     public AudioSource audio2;
     public AudioClip die;
     public AudioClip jumpSound;
@@ -395,20 +395,27 @@ public class Weegee : MonoBehaviour
             falling = false;
 
             //create an area for every game object with certain tag. destroys all these items. in this case destroys all coins (so player doesnt see them when going back up)
-            GameObject[] objs = GameObject.FindGameObjectsWithTag("Coin");
-            foreach (GameObject target in objs)
-            {
-                GameObject.Destroy(target);
-            }
+            deleteCollectibles("Coin");
+            deleteCollectibles("bigJumps");
 
             //enables menus and makes sure that all powerups are set off. 
             deathMenu.SetActive(true);
+            timerText.gameObject.SetActive(false);
             gameButtons.SetActive(false);
             deathHigh.text = "Highscore: " + (high);
             playerJumpPower = 30;
             timerText.gameObject.SetActive(false);
         }
 
+    }
+
+    public void deleteCollectibles(String tag)
+    {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag(tag);
+        foreach (GameObject target in objs)
+        {
+            GameObject.Destroy(target);
+        }
     }
 
 

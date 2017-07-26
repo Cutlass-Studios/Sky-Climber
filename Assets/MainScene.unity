@@ -842,8 +842,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -0.0000066757, y: -0.0000085831}
+  m_SizeDelta: {x: 186.7, y: 49.046}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &243439962
 MonoBehaviour:
@@ -2136,7 +2136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &435562561
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4470,8 +4470,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3, y: 2}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 0.000005722, y: -0.0000082254}
+  m_SizeDelta: {x: 211.3, y: 71.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1103815205
 MonoBehaviour:
@@ -5256,22 +5256,26 @@ MonoBehaviour:
   playerSpeed: 10
   playerJumpPower: 30
   jumpCount: 0
+  jump: {fileID: 21300000, guid: 9d96504d136a5c04086c94ba1499815d, type: 3}
+  idle: {fileID: 21300000, guid: 54e71b1923a36784b80e0759c4a3f95b, type: 3}
   cam: {fileID: 0}
-  level: 0
-  blockNum: 1
-  levelCheck: 0
   countText: {fileID: 246399898}
   highScore: {fileID: 977895380}
   totalCoins: {fileID: 310389320}
   deathScore: {fileID: 1103815205}
   deathHigh: {fileID: 243439962}
-  jump: {fileID: 21300000, guid: 9d96504d136a5c04086c94ba1499815d, type: 3}
-  idle: {fileID: 21300000, guid: 54e71b1923a36784b80e0759c4a3f95b, type: 3}
+  timerText: {fileID: 143230198}
+  bigJump: {fileID: 1502957710323762, guid: 87c905ecea29cfa4aae65b8853782f5c, type: 2}
+  coin: {fileID: 1818439363629838, guid: c366828bd7c140640a136dc42c212a5e, type: 2}
+  gameButtons: {fileID: 1682110552}
+  mainMenu: {fileID: 2118787830}
+  deathMenu: {fileID: 435562560}
   audio1: {fileID: 1404825052}
   audio2: {fileID: 1404825051}
   die: {fileID: 8300000, guid: 7dad3c4f15bc9c944ad61f76e9288e11, type: 3}
   jumpSound: {fileID: 8300000, guid: 7413f11e51b4af84eb6a3d39db19234c, type: 3}
   yahoo: {fileID: 8300000, guid: cc4a3d4dc1ade7047ab098c6c65a70b5, type: 3}
+  coinSound: {fileID: 8300000, guid: 4293ccea941996245860d95f5e2b3a18, type: 3}
   blockTypes:
   - {fileID: 21300000, guid: c5937e612f8975a4280932094511a1e1, type: 3}
   - {fileID: 21300000, guid: 18adf78a547e4654b90cd6ba296d6564, type: 3}
@@ -5283,19 +5287,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 977131ce09f21f040b3c91a4d9cd0419, type: 3}
   - {fileID: 21300000, guid: f9fc9c55ef31a654b96d27196c17cdb9, type: 3}
   - {fileID: 21300000, guid: 66a4db8f08714974bb749803f377b477, type: 3}
-  coinSound: {fileID: 8300000, guid: 4293ccea941996245860d95f5e2b3a18, type: 3}
-  coin: {fileID: 1818439363629838, guid: c366828bd7c140640a136dc42c212a5e, type: 2}
-  falling: 0
-  coins: 0
-  gameButtons: {fileID: 1682110552}
-  mainMenu: {fileID: 2118787830}
-  deathMenu: {fileID: 435562560}
   muted: {fileID: 21300000, guid: d7cc0c46d87e37e49ab5605544fd0969, type: 3}
   soundOn: {fileID: 21300000, guid: 2d5d10479e5310746bedbc73261c1ac9, type: 3}
+  level: 0
+  blockNum: 1
+  falling: 0
+  levelCheck: 0
   sound: 1
-  bigJump: {fileID: 1502957710323762, guid: 87c905ecea29cfa4aae65b8853782f5c, type: 2}
   startTime: 0
-  timerText: {fileID: 143230198}
+  high: 0
+  coins: 0
 --- !u!82 &1404825051
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5932,7 +5933,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1682110553
 RectTransform:
   m_ObjectHideFlags: 0
