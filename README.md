@@ -21,3 +21,11 @@ Changelog
 - Instantiate blocks on level start
 - Tinker with block generation/destroy formula
 - Main menu
+
+May 25 2017
+
+- Death Menu Added
+- Sound Toggle Added to Main Menu
+- bigJump Powerup Added
+- reformed block spawning
+- comments
