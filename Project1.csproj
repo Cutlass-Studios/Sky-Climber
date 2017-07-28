@@ -76,15 +76,6 @@
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Common">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CameraCrop.cs" />
@@ -93,6 +84,16 @@
     <Compile Include="Assets\Weegee.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Blocks\PNG Cake\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Castle\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Choco\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Dirt\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Grass\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Metal\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Purple\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Sand\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Snow\Spritesheet\sheet.xml" />
+    <None Include="Assets\Blocks\PNG Tundra\Spritesheet\sheet.xml" />
     <None Include="Assets\DIGITAL.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

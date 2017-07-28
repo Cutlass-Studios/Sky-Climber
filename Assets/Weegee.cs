@@ -39,6 +39,7 @@ public class Weegee : MonoBehaviour
     public GameObject deathMenu;
     public GameObject powerUp;
     public GameObject shopMenu;
+    public GameObject coinsText;
     //Sounds
     //Responsible for fucking nothing, kys chris
     public AudioSource audio1;
@@ -52,6 +53,7 @@ public class Weegee : MonoBehaviour
     public Sprite[] blockTypes;
     public Sprite[] powerUps;
     public Sprite muted, soundOn;
+    public Sprite skin;
 
     //--- GAME LOGIC ---
     public int level = 0;
@@ -70,6 +72,10 @@ public class Weegee : MonoBehaviour
     public int high = 0;
     public int coins;
     public Animator anim;
+    public int blockChoice;
+
+
+    private bool  skinChanged = false;
 
 
 
@@ -84,8 +90,8 @@ public class Weegee : MonoBehaviour
         deathMenu.SetActive(false);
         mainMenu.SetActive(true);
         timerText.gameObject.SetActive(false);
-        anim.Play("idle");
-
+        coinsText.SetActive(false);
+        shopMenu.SetActive(false);
         //Retrieve highscore and coins from memory, and then display them
         high = PlayerPrefs.GetInt("highscore", high);
         coins = PlayerPrefs.GetInt("coins", coins);
@@ -98,11 +104,14 @@ public class Weegee : MonoBehaviour
     }
     public void OpenShop()
     {
+        //Debug.Log("shop open");
         shopMenu.SetActive(true);
         gameButtons.SetActive(false);
         deathMenu.SetActive(false);
         mainMenu.SetActive(false);
         timerText.gameObject.SetActive(false);
+        totalCoins.text = coins.ToString();
+        coinsText.SetActive(true);
 
     }
     public void toggleSound()
@@ -134,7 +143,11 @@ public class Weegee : MonoBehaviour
         {
             anim.Play("walk");
         }
-        else anim.Play("idle");
+        else
+        {
+            if (skinChanged) anim.Play("idleNib");
+            else anim.Play("idle");
+        }
         //If the time since start exceeds 10 seconds after a powerup is taken (10s limit), AND the BigJumps Powerup is active, remove timer and limit playerJumpPower
         if (startTime + 5 <= Time.realtimeSinceStartup && playerJumpPower > 30)
         {
@@ -169,7 +182,9 @@ public class Weegee : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = idle;
+            if (skinChanged)
+                gameObject.GetComponent<SpriteRenderer>().sprite = skin;
+            else gameObject.GetComponent<SpriteRenderer>().sprite = idle;
         }
 
         //lastLevel becomes what level is. level updates
@@ -220,6 +235,7 @@ public class Weegee : MonoBehaviour
         gameButtons.SetActive(true);
         deathMenu.SetActive(false);
         mainMenu.SetActive(false);
+        coinsText.SetActive(true);
 
         //spawn the first 3 blocks because we are incapable of doing this properly. higher number = lower in y position.
         spawnBlock(8);
@@ -385,12 +401,7 @@ public class Weegee : MonoBehaviour
         }
 
         //Set the sprites of the blocks, changes every 20 score. after 180, will always be the same texture.
-        if (levelCheck - 2 > 180)
-        {
-            block.GetComponent<SpriteRenderer>().sprite = blockTypes[8];
-        }
-        else
-            block.GetComponent<SpriteRenderer>().sprite = blockTypes[(levelCheck) / 20];
+        block.GetComponent<SpriteRenderer>().sprite = blockTypes[blockChoice];
 
         //each time a block is instantiated, increase the number for the next block.
         blockNum++;
@@ -464,6 +475,7 @@ public class Weegee : MonoBehaviour
 
             //enables menus and makes sure that all powerups are set off. 
             deathMenu.SetActive(true);
+            coinsText.SetActive(false);
             gameButtons.SetActive(false);
             deathHigh.text = "Highscore: " + (high);
             playerJumpPower = 30;
@@ -526,6 +538,20 @@ public class Weegee : MonoBehaviour
         gameButtons.SetActive(false);
         deathMenu.SetActive(false);
         mainMenu.SetActive(true);
+        shopMenu.SetActive(false);
+        coinsText.SetActive(false);
+    }
+
+    public void loseMoney(int cost) {
+        coins -= cost;
+        PlayerPrefs.SetInt("coins", coins);
+        totalCoins.text = coins.ToString();
+    }
+
+    public void changeSkin(Sprite skin) {
+        this.skin = skin;
+        skinChanged = true;
+        Debug.Log("skin");
     }
 
     //Whenever Weegee enters the trigger for another object, this method is called.
