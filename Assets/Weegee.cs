@@ -75,8 +75,9 @@ public class Weegee : MonoBehaviour
     public Animator anim;
     public int blockChoice;
     //shop variable
-    //false means unlocked
-    public bool[] unlockables;  
+    //1 means unlocked
+    public int[] unlockables;
+    public int[] prices;
 
     private bool  skinChanged = false;
 
@@ -86,8 +87,15 @@ public class Weegee : MonoBehaviour
     private void Start()
     {
         //set store
-        unlockables = new bool[9];
-     
+        for (int i = 1; i < unlockables.Length; i++)
+        {
+            if (PlayerPrefs.GetInt("Block" + i, 0) == 1)
+                unlockBlockStart(i);
+
+        }
+       blockChoice= PlayerPrefs.GetInt("BlockNumber", 0);
+
+
 
         //Force the Screen into landscape
         Screen.orientation = ScreenOrientation.Landscape;
@@ -108,6 +116,7 @@ public class Weegee : MonoBehaviour
         //Set the Score (will be zero because the game just started)
         setScore();
         falling = false; //NOTE: be set when instantiated
+      
     }
     public void OpenShop()
     {
@@ -264,7 +273,7 @@ public class Weegee : MonoBehaviour
 
                 for (int i = (int)blockY; i > 0; i--)
                 {
-                    Instantiate(coin, new Vector3((float)Math.Sin((double)i / 15.0) * 8, i, 0), Quaternion.identity);
+                    Instantiate(coin, new Vector3((float)Math.Sin((double)i / 20.0) * 8, i, 0), Quaternion.identity);
                 }
                 disablePowerUps();
                
@@ -348,6 +357,7 @@ public class Weegee : MonoBehaviour
     public void MoveLeft()
     {
         isMovingLeft = true;
+        isMovingRight = false;
         if (facingRight)
         {
             FlipPlayer();
@@ -358,6 +368,7 @@ public class Weegee : MonoBehaviour
     //similar to moveLeft
     public void MoveRight()
     {
+        isMovingLeft = false;
         isMovingRight = true;
         if (!facingRight)
         {
@@ -367,10 +378,20 @@ public class Weegee : MonoBehaviour
     }
 
     //Called when direcetional key is released, to stop weegee's position. assumes both directions are never pressed together.
-    public void Stop()
-    {
-        isMovingLeft = false;
+    public void Stop() {
         isMovingRight = false;
+        isMovingLeft = false;
+    }
+    public void Stopright()
+    {        
+    
+        isMovingRight = false;
+    }
+    public void Stopleft()
+    {
+
+        isMovingLeft = false;
+        
     }
 
     //Spawns a block at a specified Y position (NOT coordinate) RELATIVE TO WEEGEE, not the world
@@ -550,11 +571,64 @@ public class Weegee : MonoBehaviour
     }
 
     public void loseMoney(int cost) {
-        coins -= cost;
-        PlayerPrefs.SetInt("coins", coins);
-        totalCoins.text = coins.ToString();
-        audio2.clip = saleSound;
-        audio2.Play();
+      
+        if (coins - cost >= 0)
+        {
+            coins -= cost;
+            PlayerPrefs.SetInt("coins", coins);
+            totalCoins.text = coins.ToString();
+            audio2.clip = saleSound;
+            audio2.Play();
+
+        }
+    }
+
+    public void unlockBlock(int blockNumber)
+    {
+        if (coins - prices[blockNumber] >= 0 && PlayerPrefs.GetInt("Block" + blockNumber, 0) == 0)
+        {
+            coins -= prices[blockNumber];
+            PlayerPrefs.SetInt("coins", coins);
+            totalCoins.text = coins.ToString();
+            audio2.clip = saleSound;
+            audio2.Play();
+            GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Image>().color = Color.white;
+            GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Outline>().effectColor = Color.green;
+            GameObject.Find("QuestionMark (" + blockNumber + ")").GetComponent<Text>().text = "";
+            PlayerPrefs.SetInt("Block" + blockNumber, 1);
+        }
+        if (PlayerPrefs.GetInt("Block" + blockNumber, 0) == 1)
+        {
+            blockChoice = blockNumber;
+                 PlayerPrefs.SetInt("BlockNumber", blockChoice);
+        }
+        
+    }
+
+    public void autism(int blockNumber)
+    {
+        blockChoice = blockNumber;
+        GameObject.Find("Buy 1").GetComponent<Outline>().effectColor = Color.black;
+        for (int i = 1; i < 13; i++)
+        {
+            GameObject.Find("Buy 1 (" + i + ")").GetComponent<Outline>().effectColor = Color.black;
+        }
+        
+        if (blockNumber == 0) GameObject.Find("Buy 1").GetComponent<Outline>().effectColor = Color.green;
+        else GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Outline>().effectColor = Color.green;
+    }
+
+    //unlocks without losing money
+    public void unlockBlockStart(int blockNumber)
+    {
+       
+        
+          
+          
+            GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Image>().color = Color.white;
+            GameObject.Find("QuestionMark (" + blockNumber + ")").GetComponent<Text>().text = "";
+            
+        
     }
 
     public void changeSkin(Sprite skin) {
