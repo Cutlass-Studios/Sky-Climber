@@ -49,6 +49,7 @@ public class Weegee : MonoBehaviour
     public AudioClip jumpSound;
     public AudioClip yahoo;
     public AudioClip coinSound;
+    public AudioClip saleSound;
     //Textures
     public Sprite[] blockTypes;
     public Sprite[] powerUps;
@@ -59,7 +60,7 @@ public class Weegee : MonoBehaviour
     public int level = 0;
     public int blockNum = 1;
     public bool falling;
-    protected int score=-2;
+    protected int score = -2;
     //Used to make sure Weegee doesn't drop down to a previous level and go back up to a new level in attempt to increase the level
     public int levelCheck = 0;
     //lastX is position of previous block so next block is within jumping distance
@@ -73,7 +74,9 @@ public class Weegee : MonoBehaviour
     public int coins;
     public Animator anim;
     public int blockChoice;
-
+    //shop variable
+    //false means unlocked
+    public bool[] unlockables;  
 
     private bool  skinChanged = false;
 
@@ -82,6 +85,10 @@ public class Weegee : MonoBehaviour
     //Method that is called when game begins
     private void Start()
     {
+        //set store
+        unlockables = new bool[9];
+     
+
         //Force the Screen into landscape
         Screen.orientation = ScreenOrientation.Landscape;
 
@@ -546,6 +553,8 @@ public class Weegee : MonoBehaviour
         coins -= cost;
         PlayerPrefs.SetInt("coins", coins);
         totalCoins.text = coins.ToString();
+        audio2.clip = saleSound;
+        audio2.Play();
     }
 
     public void changeSkin(Sprite skin) {
