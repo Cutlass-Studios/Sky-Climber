@@ -29,3 +29,9 @@ May 25 2017
 - bigJump Powerup Added
 - reformed block spawning
 - comments
+
+May 26 2017
+
+- 2 new powerups
+- fixed camera resolution
+- updated ui
