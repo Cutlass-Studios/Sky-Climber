@@ -84,7 +84,7 @@ public class Weegee : MonoBehaviour
 
     private bool  skinChanged = false;
 
-
+    int tempNumber;
 
     //Method that is called when game begins
     private void Start()
@@ -281,7 +281,7 @@ public class Weegee : MonoBehaviour
         if (GameObject.Find("Block #" + (blockNum - 4)) != null)
         {
             float blockY = GameObject.Find("Block #" + (blockNum - 4)).GetComponent<Transform>().position.y;
-            if (gameObject.GetComponent<Rigidbody2D>().position.y < blockY && !falling && levelCheck > 10)
+            if (gameObject.GetComponent<Rigidbody2D>().position.y + 1 < blockY && !falling && levelCheck > 10)
             {
                 falling = true;
 
@@ -493,11 +493,11 @@ public class Weegee : MonoBehaviour
 
             //play sound
             audio2.clip = die;
-            //audio2.Play();
+            audio2.Play();
 
 
-            
-
+            tempNumber = levelCheck;
+            levelCheck = 0;
             Stop();
             //player now on ground. 
             falling = false;
@@ -518,6 +518,7 @@ public class Weegee : MonoBehaviour
     }
 
     public void Revive() {
+        levelCheck = tempNumber;
         gameButtons.SetActive(true);
         deathMenu.SetActive(false);
         mainMenu.SetActive(false);
