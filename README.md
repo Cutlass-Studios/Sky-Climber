@@ -35,3 +35,10 @@ May 26 2017
 - 2 new powerups
 - fixed camera resolution
 - updated ui
+
+may 30
+
+- you can press left and right together now
+- revive
+- shop
+- spaghetti
