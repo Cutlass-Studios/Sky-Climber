@@ -2656,6 +2656,17 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1404825050}
+          m_MethodName: setFirstTime
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 1404825050}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -2664,7 +2675,7 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 0
+            m_BoolArgument: 1
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -3416,7 +3427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &435562561
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9081,7 +9092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1201525738
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10259,6 +10270,7 @@ MonoBehaviour:
   deathScore: {fileID: 1103815205}
   deathHigh: {fileID: 243439962}
   timerText: {fileID: 143230198}
+  reviveText: {fileID: 1261876646}
   bigJump: {fileID: 1502957710323762, guid: 87c905ecea29cfa4aae65b8853782f5c, type: 2}
   coin: {fileID: 1818439363629838, guid: c366828bd7c140640a136dc42c212a5e, type: 2}
   unlimitedJump: {fileID: 1732669001925482, guid: ac9d3944040908444a590d1c8ca63ce4,

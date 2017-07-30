@@ -27,7 +27,7 @@ public class Weegee : MonoBehaviour
     //--- WORLD GAME OBJECTS ---
     public GameObject cam;
     //Stores text for score and high score which will appear on the User Interface
-    public Text countText, highScore, totalCoins, deathScore, deathHigh, timerText;
+    public Text countText, highScore, totalCoins, deathScore, deathHigh, timerText, reviveText;
     //Collectables
     public GameObject bigJump;
     public GameObject coin;
@@ -40,8 +40,9 @@ public class Weegee : MonoBehaviour
     public GameObject powerUp;
     public GameObject shopMenu;
     public GameObject coinsText;
+    
     //Sounds
-    //Responsible for fucking nothing, kys chris
+    
     public AudioSource audio1;
     //Responsible for Handling collectable sounds (coins, powerups) and sounds Weegee Makes                           
     public AudioSource audio2;
@@ -121,6 +122,11 @@ public class Weegee : MonoBehaviour
         falling = false; //NOTE: be set when instantiated
       
     }
+
+    public void setFirstTime(bool b) {
+        firstTime = b;
+    }
+
     public void OpenShop()
     {
         //Debug.Log("shop open");
@@ -502,6 +508,8 @@ public class Weegee : MonoBehaviour
             //player now on ground. 
             falling = false;
 
+            reviveText.text = "Cost: $" +(blockNum*2).ToString();
+
             //create an area for every game object with certain tag. destroys all these items. in this case destroys all coins (so player doesnt see them when going back up)
             deleteCollectibles("Coin");
          
@@ -518,14 +526,16 @@ public class Weegee : MonoBehaviour
     }
 
     public void Revive() {
-        levelCheck = tempNumber;
-        gameButtons.SetActive(true);
-        deathMenu.SetActive(false);
-        mainMenu.SetActive(false);
-        coinsText.SetActive(true);
-        GameObject reviveBlock = GameObject.Find("Block #" + (blockNum - 4));
-        gameObject.GetComponent<Transform>().position = new Vector3(reviveBlock.GetComponent<Transform>().position.x, reviveBlock.GetComponent<Transform>().position.y + 2, gameObject.GetComponent<Transform>().position.z);
-        
+        if (coins >= blockNum * 2)
+        {
+            levelCheck = tempNumber;
+            gameButtons.SetActive(true);
+            deathMenu.SetActive(false);
+            mainMenu.SetActive(false);
+            coinsText.SetActive(true);
+            GameObject reviveBlock = GameObject.Find("Block #" + (blockNum - 4));
+            gameObject.GetComponent<Transform>().position = new Vector3(reviveBlock.GetComponent<Transform>().position.x, reviveBlock.GetComponent<Transform>().position.y + 2, gameObject.GetComponent<Transform>().position.z);
+        }
     }
 
     public void ResetGame() {
@@ -605,7 +615,11 @@ public class Weegee : MonoBehaviour
     }
 
     public void loseMoney(int cost) {
-      
+
+        if (cost == -1)
+        {
+            cost = blockNum * 2;
+        }
         if (coins - cost >= 0)
         {
             coins -= cost;
