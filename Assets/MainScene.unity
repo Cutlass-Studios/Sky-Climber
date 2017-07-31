@@ -709,7 +709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 555, y: -129.08}
+  m_AnchoredPosition: {x: 331, y: -185}
   m_SizeDelta: {x: 58.4, y: 21.65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &104946710
@@ -4759,7 +4759,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7c66a99d58ee18141b44c8f45c1bdaeb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dae76e9a9632b454e9586915637420b1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10271,9 +10271,9 @@ MonoBehaviour:
   deathHigh: {fileID: 243439962}
   timerText: {fileID: 143230198}
   reviveText: {fileID: 1261876646}
-  bigJump: {fileID: 1502957710323762, guid: 87c905ecea29cfa4aae65b8853782f5c, type: 2}
+  bigJump: {fileID: 1319749317018294, guid: ee403604d7f06fb40874afd31d907421, type: 2}
   coin: {fileID: 1818439363629838, guid: c366828bd7c140640a136dc42c212a5e, type: 2}
-  unlimitedJump: {fileID: 1732669001925482, guid: ac9d3944040908444a590d1c8ca63ce4,
+  unlimitedJump: {fileID: 1155254804851864, guid: 5e2ae337596203f46abd47046c6fe178,
     type: 2}
   doubleScore: {fileID: 1909764258379448, guid: 0f871ef0c956d8e46a160a9c58e63e61,
     type: 2}
@@ -10285,7 +10285,7 @@ MonoBehaviour:
   coinsText: {fileID: 310389318}
   audio1: {fileID: 1404825052}
   audio2: {fileID: 1404825051}
-  die: {fileID: 8300000, guid: 33565fe9249773545944db7360d463d3, type: 3}
+  die: {fileID: 8300000, guid: 793c1477c788cb34d881ea2f47af6645, type: 3}
   jumpSound: {fileID: 8300000, guid: 7413f11e51b4af84eb6a3d39db19234c, type: 3}
   yahoo: {fileID: 8300000, guid: cc4a3d4dc1ade7047ab098c6c65a70b5, type: 3}
   coinSound: {fileID: 8300000, guid: 4293ccea941996245860d95f5e2b3a18, type: 3}
@@ -10300,9 +10300,14 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2c40b5d4e9e2de54d883a4b63fa4d5a9, type: 3}
   - {fileID: 21300000, guid: f4c1bbb3ff955374cb37499412c9b681, type: 3}
   - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
+  - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
+  - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
+  - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
+  - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
+  - {fileID: 21300000, guid: dae76e9a9632b454e9586915637420b1, type: 3}
   powerUps:
-  - {fileID: 21300000, guid: d99d0d2067ae75a4fa5737968e97d6cd, type: 3}
-  - {fileID: 21300000, guid: 63e0ee167dd12cd48b456e80e00dadaa, type: 3}
+  - {fileID: 21300000, guid: 6e576665feaf87f4caca5fc6cd0e748f, type: 3}
+  - {fileID: 21300000, guid: ba5904298d120e3408f8bf6ceae2b5b1, type: 3}
   - {fileID: 21300000, guid: f27423ee08906ed47ab3dab4d636e5ce, type: 3}
   muted: {fileID: 21300000, guid: d7cc0c46d87e37e49ab5605544fd0969, type: 3}
   soundOn: {fileID: 21300000, guid: 2d5d10479e5310746bedbc73261c1ac9, type: 3}
@@ -10320,6 +10325,7 @@ MonoBehaviour:
   unlockables: 0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   prices: 00000000fa000000fa000000f4010000f4010000ee020000ee020000e8030000e8030000e2040000e2040000dc050000dc050000ac0d0000
   firstTime: 0
+  consecutiveRevives: 1
 --- !u!82 &1404825051
 AudioSource:
   m_ObjectHideFlags: 0
