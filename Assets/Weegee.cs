@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
+
 public class Weegee : MonoBehaviour
 {
     //--- WEEGEE PROPERTIES ---
@@ -27,7 +28,7 @@ public class Weegee : MonoBehaviour
     //--- WORLD GAME OBJECTS ---
     public GameObject cam;
     //Stores text for score and high score which will appear on the User Interface
-    public Text countText, highScore, totalCoins, deathScore, deathHigh, timerText;
+    public Text countText, highScore, totalCoins, deathScore, deathHigh, timerText, reviveText;
     //Collectables
     public GameObject bigJump;
     public GameObject coin;
@@ -40,8 +41,9 @@ public class Weegee : MonoBehaviour
     public GameObject powerUp;
     public GameObject shopMenu;
     public GameObject coinsText;
+    
     //Sounds
-    //Responsible for fucking nothing, kys chris
+    
     public AudioSource audio1;
     //Responsible for Handling collectable sounds (coins, powerups) and sounds Weegee Makes                           
     public AudioSource audio2;
@@ -79,13 +81,17 @@ public class Weegee : MonoBehaviour
     public int[] unlockables;
     public int[] prices;
 
+    //retarded variable cause i dont know why spawnblock acts differently when you press play again rather than play
+    public bool firstTime;
+    public int consecutiveRevives=1;
     private bool  skinChanged = false;
 
-
+    int tempNumber;
 
     //Method that is called when game begins
     private void Start()
     {
+       // PlayerPrefs.DeleteAll();
         //set store
         for (int i = 1; i < unlockables.Length; i++)
         {
@@ -96,7 +102,7 @@ public class Weegee : MonoBehaviour
        blockChoice= PlayerPrefs.GetInt("BlockNumber", 0);
 
 
-
+        firstTime = true;
         //Force the Screen into landscape
         Screen.orientation = ScreenOrientation.Landscape;
 
@@ -118,6 +124,11 @@ public class Weegee : MonoBehaviour
         falling = false; //NOTE: be set when instantiated
       
     }
+
+    public void setFirstTime(bool b) {
+        firstTime = b;
+    }
+
     public void OpenShop()
     {
         //Debug.Log("shop open");
@@ -186,7 +197,7 @@ public class Weegee : MonoBehaviour
         {
             timerText.text = ((int)(startTime + 11 - Time.realtimeSinceStartup)).ToString();
         }
-        if(playerJumpPower > 30)
+        if (playerJumpPower > 30)
             timerText.text = ((int)(startTime + 6 - Time.realtimeSinceStartup)).ToString();
         if (jumpLimit > 2)
             timerText.text = ((int)(startTime + 5 - Time.realtimeSinceStartup)).ToString();
@@ -228,7 +239,9 @@ public class Weegee : MonoBehaviour
         //Camera moves Weegee's Y position
         CameraMove();
         //used to spawn the coins during the falling phase
-        spawnCoin();
+        if (consecutiveRevives == 1) { 
+            spawnCoin();
+        }
 
         //Used for keyboard testing (can be removed during android release)
         if (Input.GetButtonDown("JumpKeyboard")) Jump();
@@ -247,6 +260,7 @@ public class Weegee : MonoBehaviour
     //When the play button in the Main Menu is pressed
     public void Play()
     {
+        consecutiveRevives = 1;
         //Deactivated all unneccesary buttons, activate play buttons
         gameButtons.SetActive(true);
         deathMenu.SetActive(false);
@@ -254,9 +268,19 @@ public class Weegee : MonoBehaviour
         coinsText.SetActive(true);
 
         //spawn the first 3 blocks because we are incapable of doing this properly. higher number = lower in y position.
-        spawnBlock(8);
-        spawnBlock(4);
-        spawnBlock(0);
+        //SPAGHETTi
+        if (firstTime)
+        {
+            spawnBlock(8);
+            spawnBlock(4);
+            spawnBlock(0);
+        }
+        else {
+            //Debug.Log("else");
+            spawnBlock(0);
+            spawnBlock(-4);
+            //spawnBlock(-8);
+        }
 
     }
 
@@ -267,7 +291,7 @@ public class Weegee : MonoBehaviour
         if (GameObject.Find("Block #" + (blockNum - 4)) != null)
         {
             float blockY = GameObject.Find("Block #" + (blockNum - 4)).GetComponent<Transform>().position.y;
-            if (gameObject.GetComponent<Rigidbody2D>().position.y < blockY && !falling && levelCheck > 10)
+            if (gameObject.GetComponent<Rigidbody2D>().position.y + 1 < blockY && !falling && levelCheck > 10)
             {
                 falling = true;
 
@@ -474,28 +498,22 @@ public class Weegee : MonoBehaviour
         //only execute if above level 2, AND weegee is on the ground (aka below y coord of -2)
         if (levelCheck > 2 && gameObject.GetComponent<Rigidbody2D>().position.y <= -2.0f)
         {
+
             deathScore.text = "Score: " + (levelCheck - 2);
 
             //play sound
+            
             audio2.clip = die;
             audio2.Play();
 
-            //destroy all remaining blocks
-            levelCheck = blockNum;
-            while (levelCheck > 0)
-            {
-                Destroy(GameObject.Find("Block #" + (levelCheck)));
-                levelCheck--;
-            }
 
-            //change all variables so that game can be played from the start again
+            tempNumber = levelCheck;
             levelCheck = 0;
-            level = 0;
-            blockNum = 1;
-            score = -1;
             Stop();
             //player now on ground. 
             falling = false;
+
+            reviveText.text = "Cost: $" + ((100 + blockNum) * consecutiveRevives).ToString();
 
             //create an area for every game object with certain tag. destroys all these items. in this case destroys all coins (so player doesnt see them when going back up)
             deleteCollectibles("Coin");
@@ -503,13 +521,47 @@ public class Weegee : MonoBehaviour
 
             //enables menus and makes sure that all powerups are set off. 
             deathMenu.SetActive(true);
-            coinsText.SetActive(false);
+            //coinsText.SetActive(true);
             gameButtons.SetActive(false);
             deathHigh.text = "Highscore: " + (high);
             playerJumpPower = 30;
             timerText.gameObject.SetActive(false);
         }
 
+    }
+
+    public void Revive() {
+        int cost = (100 + blockNum)*consecutiveRevives;
+        if (coins >= cost)
+        {
+            loseMoney(cost);
+            levelCheck = tempNumber;
+            gameButtons.SetActive(true);
+            deathMenu.SetActive(false);
+            mainMenu.SetActive(false);
+            coinsText.SetActive(true);
+            GameObject reviveBlock = GameObject.Find("Block #" + (blockNum - 4));
+            gameObject.GetComponent<Transform>().position = new Vector3(reviveBlock.GetComponent<Transform>().position.x, reviveBlock.GetComponent<Transform>().position.y + 2, gameObject.GetComponent<Transform>().position.z);
+            consecutiveRevives++;
+        }
+    }
+
+    public void ResetGame() {
+        firstTime = false;
+
+        //destroy all remaining blocks
+        //change all variables so that game can be played from the start again
+        levelCheck = blockNum;
+        while (levelCheck > 0)
+        {
+            Destroy(GameObject.Find("Block #" + (levelCheck)));
+            levelCheck--;
+        } 
+
+        levelCheck = 0;
+        level = 0;
+        blockNum = 1;
+        score = -1;
     }
 
     public void deleteCollectibles(String tag)
@@ -571,7 +623,8 @@ public class Weegee : MonoBehaviour
     }
 
     public void loseMoney(int cost) {
-      
+
+       
         if (coins - cost >= 0)
         {
             coins -= cost;
@@ -587,6 +640,10 @@ public class Weegee : MonoBehaviour
     {
         if (coins - prices[blockNumber] >= 0 && PlayerPrefs.GetInt("Block" + blockNumber, 0) == 0)
         {
+            for (int i = 1; i < 14; i++)
+            {
+                GameObject.Find("Buy 1 (" + i + ")").GetComponent<Outline>().effectColor = Color.black;
+            }
             coins -= prices[blockNumber];
             PlayerPrefs.SetInt("coins", coins);
             totalCoins.text = coins.ToString();
@@ -600,34 +657,36 @@ public class Weegee : MonoBehaviour
         if (PlayerPrefs.GetInt("Block" + blockNumber, 0) == 1)
         {
             blockChoice = blockNumber;
-                 PlayerPrefs.SetInt("BlockNumber", blockChoice);
+            PlayerPrefs.SetInt("BlockNumber", blockChoice);
         }
-        
-    }
 
+        }
+    //
     public void autism(int blockNumber)
     {
-        blockChoice = blockNumber;
-        GameObject.Find("Buy 1").GetComponent<Outline>().effectColor = Color.black;
-        for (int i = 1; i < 13; i++)
+        if (PlayerPrefs.GetInt("Block" + blockNumber, 0) == 1 || blockNumber ==0)
         {
-            GameObject.Find("Buy 1 (" + i + ")").GetComponent<Outline>().effectColor = Color.black;
+            blockChoice = blockNumber;
+            PlayerPrefs.SetInt("BlockNumber", blockChoice);
+
+
+            GameObject.Find("Buy 1").GetComponent<Outline>().effectColor = Color.black;
+            for (int i = 1; i < 14; i++)
+            {
+                GameObject.Find("Buy 1 (" + i + ")").GetComponent<Outline>().effectColor = Color.black;
+            }
+
+            if (blockNumber == 0) GameObject.Find("Buy 1").GetComponent<Outline>().effectColor = Color.green;
+            else GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Outline>().effectColor = Color.green;
         }
-        
-        if (blockNumber == 0) GameObject.Find("Buy 1").GetComponent<Outline>().effectColor = Color.green;
-        else GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Outline>().effectColor = Color.green;
-    }
+        }
 
     //unlocks without losing money
     public void unlockBlockStart(int blockNumber)
     {
        
-        
-          
-          
             GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Image>().color = Color.white;
             GameObject.Find("QuestionMark (" + blockNumber + ")").GetComponent<Text>().text = "";
-            
         
     }
 
@@ -676,4 +735,5 @@ public class Weegee : MonoBehaviour
             totalCoins.text = coins.ToString();
         }
     }
+ 
 }
