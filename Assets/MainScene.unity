@@ -3862,7 +3862,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7c66a99d58ee18141b44c8f45c1bdaeb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bf50f27c49dd41d49b54473e785db248, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4827,7 +4827,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a3037f1faff792945b3103113a640e6a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c4e4eb24a9a386f4fb52878c4ad5ed4d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6760,7 +6760,7 @@ GameObject:
   - component: {fileID: 834563065}
   - component: {fileID: 834563064}
   m_Layer: 0
-  m_Name: mc_dirt (6)
+  m_Name: mc_dirt (6)EPIC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10422,7 +10422,7 @@ MonoBehaviour:
   coinsText: {fileID: 310389318}
   audio1: {fileID: 1404825052}
   audio2: {fileID: 1404825051}
-  die: {fileID: 8300000, guid: 793c1477c788cb34d881ea2f47af6645, type: 3}
+  die: {fileID: 8300000, guid: d76c6d323480f7747b1b8455d1de9081, type: 3}
   jumpSound: {fileID: 8300000, guid: 7413f11e51b4af84eb6a3d39db19234c, type: 3}
   yahoo: {fileID: 8300000, guid: cc4a3d4dc1ade7047ab098c6c65a70b5, type: 3}
   coinSound: {fileID: 8300000, guid: 4293ccea941996245860d95f5e2b3a18, type: 3}
@@ -10437,11 +10437,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2c40b5d4e9e2de54d883a4b63fa4d5a9, type: 3}
   - {fileID: 21300000, guid: f4c1bbb3ff955374cb37499412c9b681, type: 3}
   - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
-  - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
-  - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
-  - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
-  - {fileID: 21300000, guid: 7b85ad60da532ec49bfb081712ebe2b1, type: 3}
-  - {fileID: 21300000, guid: dae76e9a9632b454e9586915637420b1, type: 3}
+  - {fileID: 21300000, guid: e1c22706aaf1fd143b9e548e7523ae2e, type: 3}
+  - {fileID: 21300000, guid: 395ac37eac86b814a84d4f26488e2f81, type: 3}
+  - {fileID: 21300000, guid: bf50f27c49dd41d49b54473e785db248, type: 3}
+  - {fileID: 21300000, guid: 54bdf72eddb04e5419d17fed419d41b0, type: 3}
+  - {fileID: 21300000, guid: c4e4eb24a9a386f4fb52878c4ad5ed4d, type: 3}
+  - {fileID: 21300000, guid: 243be49934e2d8d4fbec5726cd951319, type: 3}
+  - {fileID: 21300000, guid: 855f57d18b56b704bbb9d3b5059db7f9, type: 3}
   powerUps:
   - {fileID: 21300000, guid: 6e576665feaf87f4caca5fc6cd0e748f, type: 3}
   - {fileID: 21300000, guid: ba5904298d120e3408f8bf6ceae2b5b1, type: 3}
@@ -11324,7 +11326,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f67c72c96ff371940ae064732990a1c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 54bdf72eddb04e5419d17fed419d41b0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13307,7 +13309,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7c66a99d58ee18141b44c8f45c1bdaeb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 395ac37eac86b814a84d4f26488e2f81, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13476,7 +13478,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7c66a99d58ee18141b44c8f45c1bdaeb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1c22706aaf1fd143b9e548e7523ae2e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

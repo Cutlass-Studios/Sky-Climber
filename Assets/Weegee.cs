@@ -85,7 +85,7 @@ public class Weegee : MonoBehaviour
     public bool firstTime;
     public int consecutiveRevives = 1;
     private bool skinChanged = false;
-
+    private int toyStoryBlock = 0;
     int tempNumber;
 
     //Method that is called when game begins
@@ -93,6 +93,8 @@ public class Weegee : MonoBehaviour
     {
         // PlayerPrefs.DeleteAll();
         //set store
+
+        //
         for (int i = 1; i < unlockables.Length; i++)
         {
             if (PlayerPrefs.GetInt("Block" + i, 0) == 1)
@@ -123,6 +125,8 @@ public class Weegee : MonoBehaviour
         setScore();
         falling = false; //NOTE: be set when instantiated
 
+        //Debug.Log(blockChoice);
+
     }
 
     public void setFirstTime(bool b)
@@ -140,6 +144,10 @@ public class Weegee : MonoBehaviour
         timerText.gameObject.SetActive(false);
         totalCoins.text = coins.ToString();
         coinsText.SetActive(true);
+
+        //Vector3 newVector = new Vector3(GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.z);
+        //GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
+        purchaseBlock(blockChoice);
 
     }
     public void toggleSound()
@@ -240,10 +248,10 @@ public class Weegee : MonoBehaviour
         //Camera moves Weegee's Y position
         CameraMove();
         //used to spawn the coins during the falling phase
-        if (consecutiveRevives == 1)
-        {
-            spawnCoin();
-        }
+
+        spawnCoin();
+
+
 
         //Used for keyboard testing (can be removed during android release)
         if (Input.GetButtonDown("JumpKeyboard")) Jump();
@@ -294,18 +302,31 @@ public class Weegee : MonoBehaviour
         if (GameObject.Find("Block #" + (blockNum - 4)) != null)
         {
             float blockY = GameObject.Find("Block #" + (blockNum - 4)).GetComponent<Transform>().position.y;
-            if (gameObject.GetComponent<Rigidbody2D>().position.y + 1 < blockY && !falling && levelCheck > 10)
+            if (gameObject.GetComponent<Rigidbody2D>().position.y + 1 < blockY && !falling && levelCheck > 10 && consecutiveRevives == 1)
             {
                 falling = true;
-
-                for (int i = (int)blockY; i > 0; i--)
+                if (consecutiveRevives == 1)
                 {
-                    Instantiate(coin, new Vector3((float)Math.Sin((double)i / 20.0) * 8, i, 0), Quaternion.identity);
-                }
-                disablePowerUps();
 
+
+                    for (int i = (int)blockY; i > 0; i--)
+                    {
+                        Instantiate(coin, new Vector3((float)Math.Sin((double)i / 20.0) * 8, i, 0), Quaternion.identity);
+                    }
+                    disablePowerUps();
+
+                }
+            }
+            if (gameObject.GetComponent<Rigidbody2D>().position.y + 4 < blockY && !falling && levelCheck > 10 && consecutiveRevives > 1)
+            {
+                falling = true;
+                disablePowerUps();
+                Vector3 newVector = new Vector3(gameObject.GetComponent<Transform>().position.x, GameObject.Find("mc_dirt (6)EPIC").GetComponent<Transform>().position.y + 8, gameObject.GetComponent<Transform>().position.z);
+                gameObject.GetComponent<Transform>().position = newVector;
             }
         }
+
+
 
     }
     public void disablePowerUps()
@@ -425,6 +446,7 @@ public class Weegee : MonoBehaviour
     //Spawns a block at a specified Y position (NOT coordinate) RELATIVE TO WEEGEE, not the world
     public void spawnBlock(int y)
     {
+        toyStoryBlock++;
         //oldBlock points to a dirt texture found within unity
         GameObject oldBlock = GameObject.Find("mc_dirt (14)");
         //Mainblock is used when new blocks are instantiated. Mainblock becomes the parent for the newly instantiated blocks.
@@ -456,8 +478,34 @@ public class Weegee : MonoBehaviour
             spawnBigJump(block.GetComponent<Transform>().position.x, block.GetComponent<Transform>().position.y + 2);
         }
 
+        if (blockChoice == 11)
+        {
+            if (toyStoryBlock == 1)
+                
+            {
+                Debug.Log("1");
+                block.GetComponent<SpriteRenderer>().sprite = blockTypes[11];
+            }
+            if (toyStoryBlock == 2)
+                
+            {
+                Debug.Log("2");
+                block.GetComponent<SpriteRenderer>().sprite = blockTypes[14];
+            }
+            if (toyStoryBlock == 3)
+            {
+                Debug.Log("3");
+                block.GetComponent<SpriteRenderer>().sprite = blockTypes[15];
+                toyStoryBlock = 0;
+            }
+        }
+        else
+        {
+            block.GetComponent<SpriteRenderer>().sprite = blockTypes[blockChoice];
+        }
+
+
         //Set the sprites of the blocks, changes every 20 score. after 180, will always be the same texture.
-        block.GetComponent<SpriteRenderer>().sprite = blockTypes[blockChoice];
 
         //each time a block is instantiated, increase the number for the next block.
         blockNum++;
@@ -502,7 +550,7 @@ public class Weegee : MonoBehaviour
         //only execute if above level 2, AND weegee is on the ground (aka below y coord of -2)
         if (levelCheck > 2 && gameObject.GetComponent<Rigidbody2D>().position.y <= -2.0f)
         {
-
+            toyStoryBlock = 0;
             deathScore.text = "Score: " + (levelCheck - 2);
 
             //play sound
@@ -668,7 +716,7 @@ public class Weegee : MonoBehaviour
         }
 
     }
-    
+
     public void purchaseBlock(int blockNumber)
     {
         if (PlayerPrefs.GetInt("Block" + blockNumber, 0) == 1 || blockNumber == 0)
@@ -679,7 +727,7 @@ public class Weegee : MonoBehaviour
             Vector3 newVector = new Vector3(GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.z);
 
             GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
-            
+
         }
     }
 
