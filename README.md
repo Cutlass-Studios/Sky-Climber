@@ -42,3 +42,10 @@ may 30
 - revive
 - shop
 - spaghetti
+
+aug 1
+
+- death sound
+- more textures
+- fix shop
+- fall fast after revive
