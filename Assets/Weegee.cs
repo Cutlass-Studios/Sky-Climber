@@ -62,7 +62,7 @@ public class Weegee : MonoBehaviour
     public int level = 0;
     public int blockNum = 1;
     public bool falling;
-    protected int score = -2;
+    public int score = -2;
     //Used to make sure Weegee doesn't drop down to a previous level and go back up to a new level in attempt to increase the level
     public int levelCheck = 0;
     //lastX is position of previous block so next block is within jumping distance
@@ -91,7 +91,7 @@ public class Weegee : MonoBehaviour
     //Method that is called when game begins
     private void Start()
     {
-        // PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         //set store
 
         //
@@ -551,7 +551,7 @@ public class Weegee : MonoBehaviour
         if (levelCheck > 2 && gameObject.GetComponent<Rigidbody2D>().position.y <= -2.0f)
         {
             toyStoryBlock = 0;
-            deathScore.text = "Score: " + (levelCheck - 2);
+            deathScore.text = "Score: " + score;
 
             //play sound
 
