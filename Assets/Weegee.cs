@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-
+using UnityEngine.Advertisements;
 
 public class Weegee : MonoBehaviour
 {
@@ -41,6 +41,7 @@ public class Weegee : MonoBehaviour
     public GameObject powerUp;
     public GameObject shopMenu;
     public GameObject coinsText;
+    public GameObject Ads;
 
     //Sounds
 
@@ -91,6 +92,7 @@ public class Weegee : MonoBehaviour
     //Method that is called when game begins
     private void Start()
     {
+        Advertisement.Initialize("1490479");
         //PlayerPrefs.DeleteAll();
         //set store
 
@@ -120,7 +122,7 @@ public class Weegee : MonoBehaviour
         coins = PlayerPrefs.GetInt("coins", coins);
         highScore.text = "Highscore: " + high;
         totalCoins.text = "" + coins;
-
+     
         //Set the Score (will be zero because the game just started)
         setScore();
         falling = false; //NOTE: be set when instantiated
@@ -547,9 +549,12 @@ public class Weegee : MonoBehaviour
     //reset, always called by update()
     public void Reset()
     {
+     
         //only execute if above level 2, AND weegee is on the ground (aka below y coord of -2)
         if (levelCheck > 2 && gameObject.GetComponent<Rigidbody2D>().position.y <= -2.0f)
         {
+            Ads.SetActive(true);
+
             toyStoryBlock = 0;
             deathScore.text = "Score: " + score;
 
@@ -573,6 +578,8 @@ public class Weegee : MonoBehaviour
 
             //enables menus and makes sure that all powerups are set off. 
             deathMenu.SetActive(true);
+            if(!Advertisement.IsReady("rewardedVideo") || score <10)
+           Ads.SetActive(false);
             //coinsText.SetActive(true);
             gameButtons.SetActive(false);
             deathHigh.text = "Highscore: " + (high);
@@ -786,5 +793,41 @@ public class Weegee : MonoBehaviour
             totalCoins.text = coins.ToString();
         }
     }
+
+    public void ShowRewardedAd()
+    {
+
+        if (Advertisement.IsReady("rewardedVideo"))
+        {
+
+            var options = new ShowOptions { resultCallback = HandleShowResult };
+            Advertisement.Show("rewardedVideo", options);
+        }
+        Debug.Log(Advertisement.IsReady("rewardedVideo"));
+
+    }
+
+    private void HandleShowResult(ShowResult result)
+    {
+        switch (result)
+        {
+            case ShowResult.Finished:
+                // Debug.Log("The ad was successfully shown.");4
+                Ads.SetActive(false);
+                coins = coins + 150;
+                PlayerPrefs.SetInt("coins", coins);
+                totalCoins.text = "" + coins;
+                //Debug.Log("The ad was successfully shown.");
+
+                break;
+            case ShowResult.Skipped:
+                //Debug.Log("The ad was skipped before reaching the end.");
+                break;
+            case ShowResult.Failed:
+              //  Debug.LogError("The ad failed to be shown.");
+                break;
+        }
+    }
+
 
 }

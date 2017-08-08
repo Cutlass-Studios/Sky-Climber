@@ -11,7 +11,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Weegee Jump
+  productName: GeeWee Jump
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0
+  bundleVersion: 2
   preloadedAssets: []
   metroInputSource: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -140,7 +140,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.cutlassstudios.test
   buildNumber: {}
-  AndroidBundleVersionCode: 1
+  AndroidBundleVersionCode: 2
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -229,7 +229,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 38b7672e5dae21646824ac86543e6e54, type: 3}
+      m_Icon: {fileID: 2800000, guid: 6c1f41d2292021f4c9e7fcfbc47da32a, type: 3}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching: []
@@ -591,8 +591,8 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: f31207c1-1ec3-4458-bc6e-bdabcd1ee797
-  projectName: Project1
-  organizationId: scvfx
+  cloudProjectId: f98ea39b-1a44-44e1-bf32-f426c9aaa843
+  projectName: Weegee Jump (1)
+  organizationId: ryan_woodard
   cloudEnabled: 0
   enableNewInputSystem: 0
