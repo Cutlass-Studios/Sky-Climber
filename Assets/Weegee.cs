@@ -32,6 +32,7 @@ public class Weegee : MonoBehaviour
     //Collectables
     public GameObject bigJump;
     public GameObject coin;
+
     public GameObject unlimitedJump;
     public GameObject doubleScore;
     //Menus
@@ -95,7 +96,7 @@ public class Weegee : MonoBehaviour
     //Method that is called when game begins
     private void Start()
     {
-        Advertisement.Initialize("1490479",true);
+        Advertisement.Initialize("1490479");
         //PlayerPrefs.DeleteAll();
         //set store
 
