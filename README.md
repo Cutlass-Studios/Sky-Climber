@@ -49,3 +49,6 @@ aug 1
 - more textures
 - fix shop
 - fall fast after revive
+
+aug 7 
+-ads
