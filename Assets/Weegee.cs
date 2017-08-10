@@ -89,10 +89,13 @@ public class Weegee : MonoBehaviour
     private int toyStoryBlock = 0;
     int tempNumber;
 
+
+   
+
     //Method that is called when game begins
     private void Start()
     {
-        Advertisement.Initialize("1490479");
+        Advertisement.Initialize("1490479",true);
         //PlayerPrefs.DeleteAll();
         //set store
 
@@ -175,16 +178,18 @@ public class Weegee : MonoBehaviour
 
         if (jumpCount > 0)
         {
-            anim.Play("jump");
+         
+                anim.Play("jump1");
+
         }
         else if (isMovingLeft || isMovingRight)
         {
-            anim.Play("walk");
+            anim.Play("walk1");
         }
         else
         {
             if (skinChanged) anim.Play("idleNib");
-            else anim.Play("idle");
+            else anim.Play("idle1");
         }
         //If the time since start exceeds 10 seconds after a powerup is taken (10s limit), AND the BigJumps Powerup is active, remove timer and limit playerJumpPower
         if (startTime + 5 <= Time.realtimeSinceStartup && playerJumpPower > 30)
@@ -408,7 +413,7 @@ public class Weegee : MonoBehaviour
     {
         isMovingLeft = true;
         isMovingRight = false;
-        if (facingRight)
+        if (!facingRight)
         {
             FlipPlayer();
         }
@@ -420,7 +425,7 @@ public class Weegee : MonoBehaviour
     {
         isMovingLeft = false;
         isMovingRight = true;
-        if (!facingRight)
+        if (facingRight)
         {
             FlipPlayer();
         }
