@@ -109,10 +109,13 @@ public class Weegee : MonoBehaviour
         }
         blockChoice = PlayerPrefs.GetInt("BlockNumber", 0);
 
-
+        //set sound
+        if (PlayerPrefs.GetInt("Mute", 0) == 1)
+            toggleSound();
+            
         firstTime = true;
         //Force the Screen into landscape
-        Screen.orientation = ScreenOrientation.Landscape;
+       // Screen.orientation = ScreenOrientation.Landscape;
 
         //Displays only main menu upon start
         gameButtons.SetActive(false);
@@ -162,11 +165,12 @@ public class Weegee : MonoBehaviour
         if (sound)
         {
             mainMenu.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = muted;
-
+            PlayerPrefs.SetInt("Mute", 1);
         }
         else
         {
             mainMenu.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = soundOn;
+            PlayerPrefs.SetInt("Mute", 0);
         }
         sound = !sound;
         audio1.mute = !audio1.mute;
@@ -584,7 +588,7 @@ public class Weegee : MonoBehaviour
 
             //enables menus and makes sure that all powerups are set off. 
             deathMenu.SetActive(true);
-            if(!Advertisement.IsReady("rewardedVideo") || score <10)
+            if(!Advertisement.IsReady("rewardedVideo") || score <5)
            Ads.SetActive(false);
             //coinsText.SetActive(true);
             gameButtons.SetActive(false);
