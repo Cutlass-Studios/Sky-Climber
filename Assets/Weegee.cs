@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.Advertisements;
 
 public class Weegee : MonoBehaviour
@@ -57,7 +58,7 @@ public class Weegee : MonoBehaviour
     //Textures
     public Sprite[] blockTypes;
     public Sprite[] powerUps;
-    public Sprite muted, soundOn;
+    public Sprite muted, soundOn, shrink, expand;
     public Sprite skin;
 
     //--- GAME LOGIC ---
@@ -88,10 +89,14 @@ public class Weegee : MonoBehaviour
     public int consecutiveRevives = 1;
     private bool skinChanged = false;
     private int toyStoryBlock = 0;
+    private int expandedControls = 0;
     int tempNumber;
+    private float newX;
+    private float rnewX;
+    private ColorBlock offColor;
+    private GameObject currentHover;
 
 
-   
 
     //Method that is called when game begins
     private void Start()
@@ -112,10 +117,10 @@ public class Weegee : MonoBehaviour
         //set sound
         if (PlayerPrefs.GetInt("Mute", 0) == 1)
             toggleSound();
-            
+
         firstTime = true;
         //Force the Screen into landscape
-       // Screen.orientation = ScreenOrientation.Landscape;
+        // Screen.orientation = ScreenOrientation.Landscape;
 
         //Displays only main menu upon start
         gameButtons.SetActive(false);
@@ -127,9 +132,10 @@ public class Weegee : MonoBehaviour
         //Retrieve highscore and coins from memory, and then display them
         high = PlayerPrefs.GetInt("highscore", high);
         coins = PlayerPrefs.GetInt("coins", coins);
+        expandedControls = PlayerPrefs.GetInt("controls", expandedControls);
         highScore.text = "Highscore: " + high;
         totalCoins.text = "" + coins;
-     
+
         //Set the Score (will be zero because the game just started)
         setScore();
         falling = false; //NOTE: be set when instantiated
@@ -141,6 +147,12 @@ public class Weegee : MonoBehaviour
     public void setFirstTime(bool b)
     {
         firstTime = b;
+    }
+
+    public void changeControls()
+    {
+        if (expandedControls == 0) PlayerPrefs.SetInt("controls", 1);
+        else PlayerPrefs.SetInt("controls", 0);
     }
 
     public void OpenShop()
@@ -177,9 +189,65 @@ public class Weegee : MonoBehaviour
         audio2.mute = !audio2.mute;
     }
 
+
     // Update is called once per frame (60fps)
     public void Update()
     {
+        expandedControls = PlayerPrefs.GetInt("controls", expandedControls);
+        if (gameButtons.activeInHierarchy)
+        {
+
+            if (expandedControls == 0)
+            {
+                GameObject.Find("Left").GetComponent<RectTransform>().localPosition = new Vector3(-326, GameObject.Find("Left").GetComponent<RectTransform>().localPosition.y, GameObject.Find("Left").GetComponent<RectTransform>().localPosition.z);
+                GameObject.Find("Right").GetComponent<RectTransform>().localPosition = new Vector3(-237, GameObject.Find("Right").GetComponent<RectTransform>().localPosition.y, GameObject.Find("Right").GetComponent<RectTransform>().localPosition.z);
+                GameObject.Find("ControlsButton").GetComponent<Image>().sprite = expand;
+            }
+            else
+            {
+                GameObject.Find("Left").GetComponent<RectTransform>().localPosition = new Vector3(-346, GameObject.Find("Left").GetComponent<RectTransform>().localPosition.y, GameObject.Find("Left").GetComponent<RectTransform>().localPosition.z);
+                GameObject.Find("Right").GetComponent<RectTransform>().localPosition = new Vector3(-217, GameObject.Find("Right").GetComponent<RectTransform>().localPosition.y, GameObject.Find("Right").GetComponent<RectTransform>().localPosition.z);
+                GameObject.Find("ControlsButton").GetComponent<Image>().sprite = shrink;
+            }
+            /*
+            ColorBlock rightButton = GameObject.Find("Right").GetComponent<Button>().colors;
+            ColorBlock leftButton = GameObject.Find("Left").GetComponent<Button>().colors;
+            if (isMovingRight || isMovingLeft)
+            {
+                if (isMovingRight)
+                {
+                    rightButton.normalColor = new Color(231, 0, 0, 0.4f);
+                    rightButton.highlightedColor = new Color(231, 0, 0, 0.4f);
+                    leftButton.normalColor = new Color(255, 255, 255, 0.4f);
+                    leftButton.pressedColor = new Color(255, 255, 255, 0.4f);
+                    leftButton.highlightedColor = new Color(255, 255, 255, 0.4f);
+                }
+                else
+                {
+                    leftButton.normalColor = new Color(231, 0, 0, 0.4f);
+                    leftButton.highlightedColor = new Color(231, 0, 0, 0.4f);
+                    rightButton.normalColor = new Color(255, 255, 255, 0.4f);
+                    rightButton.pressedColor = new Color(255, 255, 255, 0.4f);
+                    rightButton.highlightedColor = new Color(255, 255, 255, 0.4f);
+                }
+                
+            }
+            else
+            {
+                rightButton.normalColor = new Color(255, 255, 255, 0.4f);
+                rightButton.pressedColor = new Color(255, 255, 255, 0.4f);
+                rightButton.highlightedColor = new Color(255, 255, 255, 0.4f);
+                leftButton.normalColor = new Color(255, 255, 255, 0.4f);
+                leftButton.pressedColor = new Color(255, 255, 255, 0.4f);
+                leftButton.highlightedColor = new Color(255, 255, 255, 0.4f);
+            }
+            GameObject.Find("Left").GetComponent<Button>().colors = leftButton;
+            GameObject.Find("Right").GetComponent<Button>().colors = rightButton;
+            */
+        }
+        
+        
+        
         if (jumpCount > 0)
         {
          
@@ -287,7 +355,7 @@ public class Weegee : MonoBehaviour
         deathMenu.SetActive(false);
         mainMenu.SetActive(false);
         coinsText.SetActive(true);
-
+        offColor = GameObject.Find("Left").GetComponent<Button>().colors;
         //spawn the first 3 blocks because we are incapable of doing this properly. higher number = lower in y position.
         //SPAGHETTi
         if (firstTime)
@@ -415,6 +483,15 @@ public class Weegee : MonoBehaviour
     //Moves weegee left, flips his sprite given that he is facing right
     public void MoveLeft()
     {
+        ColorBlock cb = GameObject.Find("Left").GetComponent<Button>().colors;
+        cb.normalColor = new Color(231, 0, 0, 0.4f);
+        cb.highlightedColor = new Color(231, 0, 0, 0.4f);
+        cb.pressedColor = new Color(231, 0, 0, 0.4f);
+        GameObject.Find("Left").GetComponent<Button>().colors = cb;
+        cb.normalColor = new Color(255, 255, 255, 0.4f);
+        cb.highlightedColor = new Color(255, 255, 255, 0.4f);
+        cb.pressedColor = new Color(255, 255, 255, 0.4f);
+        GameObject.Find("Right").GetComponent<Button>().colors = cb;
         isMovingLeft = true;
         isMovingRight = false;
         if (!facingRight)
@@ -427,6 +504,15 @@ public class Weegee : MonoBehaviour
     //similar to moveLeft
     public void MoveRight()
     {
+        ColorBlock cb = GameObject.Find("Right").GetComponent<Button>().colors;
+        cb.normalColor = new Color(231, 0, 0, 0.4f);
+        cb.highlightedColor = new Color(231, 0, 0, 0.4f);
+        cb.pressedColor = new Color(231, 0, 0, 0.4f);
+        GameObject.Find("Right").GetComponent<Button>().colors = cb;
+        cb.normalColor = new Color(255, 255, 255, 0.4f);
+        cb.highlightedColor = new Color(255, 255, 255, 0.4f);
+        cb.pressedColor = new Color(255, 255, 255, 0.4f);
+        GameObject.Find("Left").GetComponent<Button>().colors = cb;
         isMovingLeft = false;
         isMovingRight = true;
         if (facingRight)
@@ -439,17 +525,32 @@ public class Weegee : MonoBehaviour
     //Called when direcetional key is released, to stop weegee's position. assumes both directions are never pressed together.
     public void Stop()
     {
+        
         isMovingRight = false;
         isMovingLeft = false;
     }
     public void Stopright()
     {
+        ColorBlock cb = offColor;
 
+        cb.normalColor = new Color(255, 255, 255, 0.4f);
+        cb.highlightedColor = new Color(255, 255, 0, 0.4f);
+        cb.pressedColor = new Color(255, 255, 255, 0.4f);
+
+        GameObject.Find("Left").GetComponent<Button>().colors = cb;
+        GameObject.Find("Right").GetComponent<Button>().colors = cb;
         isMovingRight = false;
     }
     public void Stopleft()
     {
+        ColorBlock cb = offColor;
 
+        cb.normalColor = new Color(255, 255, 255, 0.4f);
+        cb.highlightedColor = new Color(255, 255, 0, 0.4f);
+        cb.pressedColor = new Color(255, 255, 255, 0.4f);
+
+        GameObject.Find("Left").GetComponent<Button>().colors = cb;
+        GameObject.Find("Right").GetComponent<Button>().colors = cb;
         isMovingLeft = false;
 
     }
