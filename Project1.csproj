@@ -90,11 +90,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CameraCrop.cs" />
-    <Compile Include="Assets\CustomInput.cs" />
-    <Compile Include="Assets\Movement.cs" />
-    <Compile Include="Assets\PressLogic.cs" />
-    <Compile Include="Assets\Weegee.cs" />
+    <Compile Include="Assets\Scripts\CameraCrop.cs" />
+    <Compile Include="Assets\Scripts\Weegee.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Blocks\PNG Cake\Spritesheet\sheet.xml" />
@@ -107,7 +104,6 @@
     <None Include="Assets\Blocks\PNG Sand\Spritesheet\sheet.xml" />
     <None Include="Assets\Blocks\PNG Snow\Spritesheet\sheet.xml" />
     <None Include="Assets\Blocks\PNG Tundra\Spritesheet\sheet.xml" />
-    <None Include="Assets\DIGITAL.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
