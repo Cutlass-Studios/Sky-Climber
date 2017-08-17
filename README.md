@@ -1,54 +1,23 @@
-# cut ass studio's magnum opus
+# Sky Climber
 
+Sky Climber is a mobile platformer that was designed and developed by Cutlass Studios on July 20, 2017. Players can climb and view their score while playing the game and view their highscore. Players can collect coins to purchase in-game reskins of platforms. Users can also redeem coins to revive their player at the point in which they fell.
 
-Changelog
----
-20 May 2017
+![](https://lh3.googleusercontent.com/Tv4bvpdiN_tcrxRenk7GPS2jnejfUlAbzscL_FvIZ2ksiOQPGM4lIRiYUnIIMLaoM28=h310-rw)
+![](https://lh3.googleusercontent.com/QUm8dHP8RnOywNdxcLZmur1k7Y5yCEHqlD8XjiflhfhCn1cNlWLx8o3a8Y8elqOOzQ=h900-rw)
+![](https://lh3.googleusercontent.com/31SOPL8eapU7b69AOfY_V-F3SOgTTecLB2fveEYnPL0lM-ovVgVgE3jLCYXR2kgTFg=h900-rw)
+![](https://lh3.googleusercontent.com/biv6KuGYxytzjZ7Qxfee9Q_XzvLZ22RZRDK6h0S88jML92Qjg8dhmME4VHu0Kfd9pqfu=h900-rw)
 
-- Added JumpCounter
-- Only jump when on ground
-- Android controls
-- Camera follows player in Y
-- Not falling off edge (x-Axis)
+##Links
+* [Google Play](https://play.google.com/store/apps/details?id=com.cutlassstudios.test&hl=en)
+* [Apple Store (Coming Soon)]()
+* [Website](cutlass-studios.github.io)
 
-24 May 2017
-
-- Blocks change textures every 20 levels
-- Delete unecessary starting blocks
-- Created collectable
-- Created coin counter
-- Create coin trail (sin)
-- Instantiate blocks on level start
-- Tinker with block generation/destroy formula
-- Main menu
-
-May 25 2017
-
-- Death Menu Added
-- Sound Toggle Added to Main Menu
-- bigJump Powerup Added
-- reformed block spawning
-- comments
-
-May 26 2017
-
-- 2 new powerups
-- fixed camera resolution
-- updated ui
-
-may 30
-
-- you can press left and right together now
-- revive
-- shop
-- spaghetti
-
-aug 1
-
-- death sound
-- more textures
-- fix shop
-- fall fast after revive
-
-aug 7 
--ads
+##Credits
+Sky Climber was created by:
+- Christopher Marcok
+- Ryan Woodard
+- Christopher Goel
+- Ather Hassan
+- Daniel Walker
+Textures from:
+- kenney.nl
