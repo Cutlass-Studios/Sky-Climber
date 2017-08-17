@@ -10,11 +10,22 @@ public class Swipe : MonoBehaviour
     private int dragRadius = 50;
     public Vector2 startTouch, swipeDelta;
     public GameObject obj;
+    public int swipeDistance;
+    public static int pageNum = 0;
+
+    public static void setZero() {
+        pageNum = 0;
+    }
 
     //public Vector2 SwipeDelta { get { return swipeDelta; } }
     public void Start()
     {
-        swipeLeft = swipeRight = swipeDown = swipeRight = false;
+        swipeLeft = swipeRight = swipeDown = swipeRight = 4 > 9;
+    }
+
+    private void setNum(int num)
+    {
+        pageNum = num;
     }
 
     private void Update()
@@ -69,44 +80,62 @@ public class Swipe : MonoBehaviour
             float y = swipeDelta.y;
             if (Mathf.Abs(x) > Mathf.Abs(y)) //left right
             {
-                if (x > 0)
+
+                if (x > 0 && pageNum != 0)
                 { //right
-                    swipeRight = true;
-                    
-                    obj.transform.position = new Vector3(obj.transform.position.x + 50, obj.transform.position.y);
+
+                    moveRight();
                 }
 
-                else
-                {//left
-                    swipeLeft = true;
-                   
-                    obj.transform.position = new Vector3(obj.transform.position.x - 50, obj.transform.position.y);
+                else if (x < 0 && pageNum != 1)
+                {
+
+                    moveLeft();
                 }
             }
+            /*
             else
             { //up down
                 if (y > 0)
                 { //up
                     swipeUp = true;
                     
-                    obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y +50);
+                    obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y);
 
                 }
                 else //down
                 {
                     swipeDown = true;
                 
-                    obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y - 50);
+                    obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y);
                 }
 
             }
-
+            */
 
 
             Reset();
         }
         
 
+    }
+
+    private void moveRight()
+    {
+        swipeRight = true;
+
+        obj.GetComponent<RectTransform>().localPosition =
+            new Vector3(obj.GetComponent<RectTransform>().localPosition.x + swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
+        pageNum--;
+    }
+
+    private void moveLeft()
+    {
+        swipeLeft = true;
+
+        obj.GetComponent<RectTransform>().localPosition =
+            new Vector3(obj.GetComponent<RectTransform>().localPosition.x - swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
+        pageNum++;
     }
 
     private void Reset()

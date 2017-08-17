@@ -8,6 +8,7 @@ using UnityEngine.Advertisements;
 
 public class Weegee : MonoBehaviour
 {
+  
     //--- WEEGEE PROPERTIES ---
     //Movement
     public bool facingRight = true;
@@ -97,8 +98,9 @@ public class Weegee : MonoBehaviour
     //Method that is called when game begins
     private void Start()
     {
+     
         Advertisement.Initialize("1490479");
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         //set store
 
         //
@@ -157,11 +159,30 @@ public class Weegee : MonoBehaviour
         timerText.gameObject.SetActive(false);
         totalCoins.text = coins.ToString();
         coinsText.SetActive(true);
-        for (int i = 1; i < unlockables.Length; i++)
+        GameObject.Find("BlockPage1").GetComponent<RectTransform>().localPosition = new Vector3(1, 0, 0);
+        GameObject.Find("BlockPage2").GetComponent<RectTransform>().localPosition = new Vector3(808, 0, 0);
+        Swipe.setZero();
+
+        for (int i = 1; i < 14; i++)
         {
             if (PlayerPrefs.GetInt("Block" + i, 0) == 1)
             {
-                unlockBlockStart(i);
+                    unlockBlockStart(i, 1);
+            }
+        }
+
+
+        //page 2
+        for (int i = 1; i < 14; i++)
+        {
+            if (PlayerPrefs.GetInt("Block2" + i, 0) == 1)
+            {
+            
+               
+                
+                    unlockBlockStart(i, 2);
+                
+
             }
         }
 
@@ -188,10 +209,30 @@ public class Weegee : MonoBehaviour
         audio2.mute = !audio2.mute;
     }
 
+    private void moveSelector()
+    {
+        if (shopMenu.activeInHierarchy)
+        {
+            if (blockChoice <= 13)
+            {
+                Vector3 newVector = new Vector3(GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.z);
+                GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
+            }
+            else
+            {
+                Vector3 newVector = new Vector3(GameObject.Find("Buy 2 (" + (blockChoice - 16) + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 2 (" + (blockChoice - 16) + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 2 (" + (blockChoice - 16) + ")").GetComponent<Transform>().position.z);
+                GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
+            }
+        }
+    }
+
 
     // Update is called once per frame (60fps)
     public void Update()
     {
+
+        moveSelector();
+        
         expandedControls = PlayerPrefs.GetInt("controls", expandedControls);
         
         if (gameButtons.activeInHierarchy)
@@ -471,15 +512,19 @@ public class Weegee : MonoBehaviour
     //Moves weegee left, flips his sprite given that he is facing right
     public void MoveLeft()
     {
-        ColorBlock cb = GameObject.Find("Left").GetComponent<Button>().colors;
-        cb.normalColor = new Color(231, 0, 0, 0.4f);
-        cb.highlightedColor = new Color(231, 0, 0, 0.4f);
-        cb.pressedColor = new Color(231, 0, 0, 0.4f);
-        GameObject.Find("Left").GetComponent<Button>().colors = cb;
-        cb.normalColor = new Color(255, 255, 255, 0.4f);
-        cb.highlightedColor = new Color(255, 255, 255, 0.4f);
-        cb.pressedColor = new Color(255, 255, 255, 0.4f);
-        GameObject.Find("Right").GetComponent<Button>().colors = cb;
+        if (gameButtons.activeInHierarchy)
+        {
+            ColorBlock cb = GameObject.Find("Left").GetComponent<Button>().colors;
+            cb.normalColor = new Color(231, 0, 0, 0.4f);
+            cb.highlightedColor = new Color(231, 0, 0, 0.4f);
+            cb.pressedColor = new Color(231, 0, 0, 0.4f);
+            GameObject.Find("Left").GetComponent<Button>().colors = cb;
+            cb.normalColor = new Color(255, 255, 255, 0.4f);
+            cb.highlightedColor = new Color(255, 255, 255, 0.4f);
+            cb.pressedColor = new Color(255, 255, 255, 0.4f);
+            GameObject.Find("Right").GetComponent<Button>().colors = cb;
+        }
+            
         isMovingLeft = true;
         isMovingRight = false;
         if (!facingRight)
@@ -492,15 +537,19 @@ public class Weegee : MonoBehaviour
     //similar to moveLeft
     public void MoveRight()
     {
-        ColorBlock cb = GameObject.Find("Right").GetComponent<Button>().colors;
-        cb.normalColor = new Color(231, 0, 0, 0.4f);
-        cb.highlightedColor = new Color(231, 0, 0, 0.4f);
-        cb.pressedColor = new Color(231, 0, 0, 0.4f);
-        GameObject.Find("Right").GetComponent<Button>().colors = cb;
-        cb.normalColor = new Color(255, 255, 255, 0.4f);
-        cb.highlightedColor = new Color(255, 255, 255, 0.4f);
-        cb.pressedColor = new Color(255, 255, 255, 0.4f);
-        GameObject.Find("Left").GetComponent<Button>().colors = cb;
+        if (gameButtons.activeInHierarchy)
+        {
+            ColorBlock cb = GameObject.Find("Right").GetComponent<Button>().colors;
+            cb.normalColor = new Color(231, 0, 0, 0.4f);
+            cb.highlightedColor = new Color(231, 0, 0, 0.4f);
+            cb.pressedColor = new Color(231, 0, 0, 0.4f);
+            GameObject.Find("Right").GetComponent<Button>().colors = cb;
+            cb.normalColor = new Color(255, 255, 255, 0.4f);
+            cb.highlightedColor = new Color(255, 255, 255, 0.4f);
+            cb.pressedColor = new Color(255, 255, 255, 0.4f);
+            GameObject.Find("Left").GetComponent<Button>().colors = cb;
+        }
+        
         isMovingLeft = false;
         isMovingRight = true;
         if (facingRight)
@@ -806,6 +855,7 @@ public class Weegee : MonoBehaviour
             GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Outline>().effectColor = Color.green;
             GameObject.Find("QuestionMark (" + blockNumber + ")").GetComponent<Text>().text = "";
             PlayerPrefs.SetInt("Block" + blockNumber, 1);
+            purchaseBlock(blockNumber);
         }
         if (PlayerPrefs.GetInt("Block" + blockNumber, 0) == 1)
         {
@@ -814,27 +864,81 @@ public class Weegee : MonoBehaviour
         }
 
     }
+    public void unlockBlock2(int blockNumber)
+    {
+        if (coins - prices[blockNumber + 16] >= 0 && PlayerPrefs.GetInt("Block2" + blockNumber, 0) == 0)
+        {
+            //Debug.Log("BOUGHT");
+            for (int i = 0; i < 14; i++)
+            {
+                GameObject.Find("Buy 2 (" + blockNumber + ")").GetComponent<Outline>().effectColor = Color.black;
+            }
+            coins -= prices[blockNumber + 16];
+            PlayerPrefs.SetInt("coins", coins);
+            totalCoins.text = coins.ToString();
+            audio2.clip = saleSound;
+            audio2.Play();
+            GameObject.Find("Buy 2 (" + blockNumber + ")").GetComponent<Image>().color = Color.white;
+            GameObject.Find("Buy 2 (" + blockNumber + ")").GetComponent<Outline>().effectColor = Color.green;
+            GameObject.Find("QuestionMark2 (" + blockNumber + ")").GetComponent<Text>().text = "";
+            PlayerPrefs.SetInt("Block2" + blockNumber, 1);
+            purchaseBlock(blockNumber+16);
+        }
+        if (PlayerPrefs.GetInt("Block2" + blockNumber, 0) == 1)
+        {
+            blockChoice = blockNumber+16;
+            PlayerPrefs.SetInt("BlockNumber", blockChoice);
+        }
 
+    }
+  
     public void purchaseBlock(int blockNumber)
     {
+        //GameObject.Find("BlockPage1").GetComponent<Swipe>().pageNum
         if (PlayerPrefs.GetInt("Block" + blockNumber, 0) == 1 || blockNumber == 0)
         {
             blockChoice = blockNumber;
             PlayerPrefs.SetInt("BlockNumber", blockChoice);
+            Vector3 newVector;
+            if (blockChoice <= 13)
+            {
+                Debug.Log("Page 1");
+                newVector = new Vector3(GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.z);
+                GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
+            }
+        }
+        
+        else if (PlayerPrefs.GetInt("Block2" + (blockNumber - 16), 0) == 1)
+        {
+            if (blockNumber > 14)
+            {
+                Debug.Log("Page 2");
+                Vector3 newVector1;
+                int nibChoice = blockNumber - 16;
 
-            Vector3 newVector = new Vector3(GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.z);
+                newVector1 = new Vector3(GameObject.Find("Buy 2 (" + nibChoice + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 2 (" + nibChoice + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 2 (" + nibChoice + ")").GetComponent<Transform>().position.z);
+                GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector1;
+            }
 
-            GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
 
         }
     }
-
+ 
     //unlocks without losing money
-    public void unlockBlockStart(int blockNumber)
+    public void unlockBlockStart(int blockNumber, int blockPage)
     {
-
-        GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Image>().color = Color.white;
-        GameObject.Find("QuestionMark (" + blockNumber + ")").GetComponent<Text>().text = "";
+        if (blockPage == 1)
+        {
+            GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Image>().color = Color.white;
+            GameObject.Find("QuestionMark (" + blockNumber + ")").GetComponent<Text>().text = "";
+        }
+        else if (blockPage == 2)
+        {
+            int blockNumber2 = blockNumber - 14;
+            GameObject.Find("Buy 2 (" + blockNumber + ")").GetComponent<Image>().color = Color.white;
+            GameObject.Find("QuestionMark2 (" + blockNumber + ")").GetComponent<Text>().text = "";
+        }
+        
 
     }
 
