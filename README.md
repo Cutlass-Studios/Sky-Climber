@@ -10,7 +10,7 @@ Sky Climber is a mobile platformer that was designed and developed by Cutlass St
 ## Links
 * [Google Play](https://play.google.com/store/apps/details?id=com.cutlassstudios.test&hl=en)
 * [Apple Store (Coming Soon)]()
-* [Website](cutlass-studios.github.io)
+* [Website](https://cutlass-studios.github.io)
 
 ## Credits
 Sky Climber was created by:
