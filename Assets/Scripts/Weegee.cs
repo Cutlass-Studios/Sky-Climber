@@ -193,9 +193,10 @@ public class Weegee : MonoBehaviour
     public void Update()
     {
         expandedControls = PlayerPrefs.GetInt("controls", expandedControls);
+        
         if (gameButtons.activeInHierarchy)
         {
-
+            /*
             if (expandedControls == 0)
             {
                 GameObject.Find("Left").GetComponent<RectTransform>().localPosition = new Vector3(-326, GameObject.Find("Left").GetComponent<RectTransform>().localPosition.y, GameObject.Find("Left").GetComponent<RectTransform>().localPosition.z);
@@ -208,7 +209,7 @@ public class Weegee : MonoBehaviour
                 GameObject.Find("Right").GetComponent<RectTransform>().localPosition = new Vector3(-217, GameObject.Find("Right").GetComponent<RectTransform>().localPosition.y, GameObject.Find("Right").GetComponent<RectTransform>().localPosition.z);
                 GameObject.Find("ControlsButton").GetComponent<Image>().sprite = shrink;
             }
-            /*
+            
             ColorBlock rightButton = GameObject.Find("Right").GetComponent<Button>().colors;
             ColorBlock leftButton = GameObject.Find("Left").GetComponent<Button>().colors;
             if (isMovingRight || isMovingLeft)
@@ -244,9 +245,9 @@ public class Weegee : MonoBehaviour
             GameObject.Find("Right").GetComponent<Button>().colors = rightButton;
             */
         }
-        
-        
-        
+
+
+
         if (jumpCount > 0)
         {
          
