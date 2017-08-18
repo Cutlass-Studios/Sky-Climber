@@ -13929,7 +13929,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 838f6f5e798a25542972624fa7c3f616, type: 3}
   - {fileID: 21300000, guid: 16e0a14cdaca18f41939652ee372efd2, type: 3}
   powerUps:
-  - {fileID: 21300000, guid: 6e576665feaf87f4caca5fc6cd0e748f, type: 3}
+  - {fileID: 21300000, guid: c499cf9c07eff1e4d8a537789c2f70cb, type: 3}
   - {fileID: 21300000, guid: ba5904298d120e3408f8bf6ceae2b5b1, type: 3}
   - {fileID: 21300000, guid: f27423ee08906ed47ab3dab4d636e5ce, type: 3}
   muted: {fileID: 21300000, guid: d7cc0c46d87e37e49ab5605544fd0969, type: 3}
@@ -14798,7 +14798,7 @@ MonoBehaviour:
   startTouch: {x: 0, y: 0}
   swipeDelta: {x: 0, y: 0}
   obj: {fileID: 1531960257}
-  swipeDistance: 800
+  magicNumber: 4000
 --- !u!1 &1547586297
 GameObject:
   m_ObjectHideFlags: 0
@@ -15364,7 +15364,7 @@ MonoBehaviour:
   startTouch: {x: 0, y: 0}
   swipeDelta: {x: 0, y: 0}
   obj: {fileID: 1585097175}
-  swipeDistance: 808
+  magicNumber: 4000
 --- !u!1 &1586640722
 GameObject:
   m_ObjectHideFlags: 0
