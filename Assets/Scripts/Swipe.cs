@@ -33,7 +33,7 @@ public class Swipe : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(pageNum);
+        
         //computer
         if (Input.GetMouseButtonDown(0))
         {
@@ -74,13 +74,30 @@ public class Swipe : MonoBehaviour
                 //Debug.Log((Vector2)Input.mousePosition);
                 swipeDelta = (Vector2)Input.mousePosition - startTouch;
             }
-            //MENU FOLLOWS CURSOR
-            if (pageNum == 0)
+
+            //MENU FOLLOWS TOUCH
+            if (Input.touches.Length != 0)
             {
-                obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.mousePosition.x - startTouch.x, obj.GetComponent<RectTransform>().localPosition.y);
+                if (pageNum == 0)
+                {
+                    obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.touches[0].position.x - startTouch.x, obj.GetComponent<RectTransform>().localPosition.y);
+                }
+                else
+                {
+                    obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.touches[0].position.x - startTouch.x - 807, obj.GetComponent<RectTransform>().localPosition.y);
+                }
             }
-            else {
-                obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.mousePosition.x - startTouch.x - 807, obj.GetComponent<RectTransform>().localPosition.y);
+            //MENU FOLLOWS CURSOR
+            else
+            {
+                if (pageNum == 0)
+                {
+                    obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.mousePosition.x - startTouch.x, obj.GetComponent<RectTransform>().localPosition.y);
+                }
+                else
+                {
+                    obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.mousePosition.x - startTouch.x - 807, obj.GetComponent<RectTransform>().localPosition.y);
+                }
             }
 
         }
@@ -89,34 +106,34 @@ public class Swipe : MonoBehaviour
         {
             Vector2 currentPos = obj.GetComponent<RectTransform>().localPosition;
             Vector2 destination = new Vector2(0, 0);
-            obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * Time.deltaTime);
+            obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber/2 * Time.deltaTime);
         }
         else {
             Vector2 currentPos = obj.GetComponent<RectTransform>().localPosition;
             Vector2 destination = new Vector2(-807, 0);
-            obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * Time.deltaTime);
+            obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber/2 * Time.deltaTime);
         }
 
         //if player has swiped further than given radius (cross deadzone)
-        if (swipeDelta.magnitude > dragRadius)
+        if (Mathf.Abs(swipeDelta.x) > dragRadius)
         {
             float x = swipeDelta.x;
             float y = swipeDelta.y;
-            if (Mathf.Abs(x) > Mathf.Abs(y)) //left right
+            //left right
+
+
+            if (x > 0 && pageNum != 0)
+            { //right
+
+                moveRight();
+            }
+
+            else if (x < 0 && pageNum != 1)
             {
 
-                if (x > 0 && pageNum != 0)
-                { //right
-
-                    moveRight();
-                }
-
-                else if (x < 0 && pageNum != 1)
-                {
-
-                    moveLeft();
-                }
+                moveLeft();
             }
+
             /*
             else
             { //up down
@@ -139,9 +156,9 @@ public class Swipe : MonoBehaviour
 
 
             Reset();
-        }
-        
 
+
+        }
     }
 
     private void moveRight()
@@ -151,7 +168,7 @@ public class Swipe : MonoBehaviour
 
         Vector2 currentPos = obj.GetComponent<RectTransform>().localPosition;
         Vector2 destination = new Vector2(0, 0);
-        obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * 32* Time.deltaTime);
+        obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * 1* Time.deltaTime);
 
         //obj.GetComponent<RectTransform>().localPosition =
         //    new Vector3(obj.GetComponent<RectTransform>().localPosition.x + swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
@@ -165,7 +182,7 @@ public class Swipe : MonoBehaviour
 
         Vector2 currentPos = obj.GetComponent<RectTransform>().localPosition;
         Vector2 destination = new Vector2(-807, 0);
-        obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * 32 * Time.deltaTime);
+        obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * 1 * Time.deltaTime);
 
         //obj.GetComponent<RectTransform>().localPosition =
         //new Vector3(obj.GetComponent<RectTransform>().localPosition.x - swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
