@@ -107,11 +107,19 @@ public class Weegee : MonoBehaviour
     //Method that is called when game begins
     private void Start()
     {
+        //PlayerPrefs.DeleteAll();
+
+
+
+
+
+
         givenName = PlayerPrefs.GetString("name", givenName);
+        
         print(givenName);
 
         Advertisement.Initialize("1490479");
-        //PlayerPrefs.DeleteAll();
+        
         //set store
 
         //
@@ -203,6 +211,7 @@ public class Weegee : MonoBehaviour
         {
             audio1.clip = soundEffect;
             audio1.Play();
+            count = 0;
         }
     }
 
