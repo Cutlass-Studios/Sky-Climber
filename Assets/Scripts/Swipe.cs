@@ -73,6 +73,7 @@ public class Swipe : MonoBehaviour
                 //Debug.Log((Vector2)Input.mousePosition);
                 swipeDelta = (Vector2)Input.mousePosition - startTouch;
             }
+           // obj.GetComponent<RectTransform>().localPosition = Input.mousePosition;
         }
 
         //if player has swiped further than given radius (cross deadzone)

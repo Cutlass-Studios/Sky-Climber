@@ -186,7 +186,7 @@ public class Weegee : MonoBehaviour
 
 
         //page 2
-        for (int i = 1; i < 14; i++)
+        for (int i = 0; i < 14; i++)
         {
             if (PlayerPrefs.GetInt("Block2" + i, 0) == 1)
             {
