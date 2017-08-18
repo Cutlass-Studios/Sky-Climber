@@ -5,8 +5,10 @@ using UnityEngine;
 public class Swipe : MonoBehaviour
 {
 
-    public bool isDragging, swipeLeft, swipeRight, swipeUp, swipeDown;
-    
+    public bool swipeLeft, swipeRight, swipeUp, swipeDown;
+    public static bool isDragging;
+
+
     private int dragRadius = 50;
     public Vector2 startTouch, swipeDelta;
     public GameObject obj;
