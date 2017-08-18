@@ -9,11 +9,12 @@ public class Swipe : MonoBehaviour
     public static bool isDragging;
 
 
-    private int dragRadius = 50;
+    private int dragRadius = 100;
     public Vector2 startTouch, swipeDelta;
     public GameObject obj;
-    public int swipeDistance;
+    //public int swipeDistance;
     public static int pageNum = 0;
+    public float magicNumber = 4000f;
 
     public static void setZero() {
         pageNum = 0;
@@ -32,7 +33,7 @@ public class Swipe : MonoBehaviour
 
     private void Update()
     {
-
+        //Debug.Log(pageNum);
         //computer
         if (Input.GetMouseButtonDown(0))
         {
@@ -63,7 +64,7 @@ public class Swipe : MonoBehaviour
         swipeDelta = Vector2.zero;
         if (isDragging)
         {
-            
+
             if (Input.touches.Length != 0)
             {
                 swipeDelta = Input.touches[0].position - startTouch;
@@ -73,7 +74,27 @@ public class Swipe : MonoBehaviour
                 //Debug.Log((Vector2)Input.mousePosition);
                 swipeDelta = (Vector2)Input.mousePosition - startTouch;
             }
-           // obj.GetComponent<RectTransform>().localPosition = Input.mousePosition;
+            //MENU FOLLOWS CURSOR
+            if (pageNum == 0)
+            {
+                obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.mousePosition.x - startTouch.x, obj.GetComponent<RectTransform>().localPosition.y);
+            }
+            else {
+                obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.mousePosition.x - startTouch.x - 807, obj.GetComponent<RectTransform>().localPosition.y);
+            }
+
+        }
+        //RESETTING POSITION
+        else if (pageNum == 0)
+        {
+            Vector2 currentPos = obj.GetComponent<RectTransform>().localPosition;
+            Vector2 destination = new Vector2(0, 0);
+            obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * Time.deltaTime);
+        }
+        else {
+            Vector2 currentPos = obj.GetComponent<RectTransform>().localPosition;
+            Vector2 destination = new Vector2(-807, 0);
+            obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * Time.deltaTime);
         }
 
         //if player has swiped further than given radius (cross deadzone)
@@ -126,18 +147,29 @@ public class Swipe : MonoBehaviour
     private void moveRight()
     {
         swipeRight = true;
+        //obj.GetComponent<RectTransform>().localPosition = new Vector3(0, 0);
 
-        obj.GetComponent<RectTransform>().localPosition =
-            new Vector3(obj.GetComponent<RectTransform>().localPosition.x + swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
+        Vector2 currentPos = obj.GetComponent<RectTransform>().localPosition;
+        Vector2 destination = new Vector2(0, 0);
+        obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * 32* Time.deltaTime);
+
+        //obj.GetComponent<RectTransform>().localPosition =
+        //    new Vector3(obj.GetComponent<RectTransform>().localPosition.x + swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
         pageNum--;
     }
 
     private void moveLeft()
     {
         swipeLeft = true;
+        //obj.GetComponent<RectTransform>().localPosition = new Vector3(-807, 0);
 
-        obj.GetComponent<RectTransform>().localPosition =
-            new Vector3(obj.GetComponent<RectTransform>().localPosition.x - swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
+        Vector2 currentPos = obj.GetComponent<RectTransform>().localPosition;
+        Vector2 destination = new Vector2(-807, 0);
+        obj.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(currentPos, destination, magicNumber * 32 * Time.deltaTime);
+
+        //obj.GetComponent<RectTransform>().localPosition =
+        //new Vector3(obj.GetComponent<RectTransform>().localPosition.x - swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
+
         pageNum++;
     }
 
