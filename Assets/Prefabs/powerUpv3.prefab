@@ -20,7 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4487227497532392}
   - component: {fileID: 212649684281890650}
+<<<<<<< HEAD
+  - component: {fileID: 58327539226424404}
+=======
   - component: {fileID: 58782020436923166}
+>>>>>>> master
   m_Layer: 0
   m_Name: powerUpv3
   m_TagString: bigJumps
@@ -41,7 +45,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
+--- !u!58 &58327539226424404
+=======
 --- !u!58 &58782020436923166
+>>>>>>> master
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

@@ -27,7 +27,7 @@ public class Weegee : MonoBehaviour
     //--- WORLD GAME OBJECTS ---
     public GameObject cam;
     //Stores text for score and high score which will appear on the User Interface
-    public Text countText, highScore, totalCoins, deathScore, deathHigh, timerText, reviveText;
+    public Text countText, highScore, totalCoins, deathScore, deathHigh, timerText, reviveText, currentNameText;
     //Collectables
     public GameObject bigJump;
     public GameObject coin;
@@ -41,7 +41,9 @@ public class Weegee : MonoBehaviour
     public GameObject powerUp;
     public GameObject shopMenu;
     public GameObject coinsText;
+    public GameObject leaderboardMenu;
     public GameObject Ads;
+    public GameObject firstTimePanel;
 
     //Sounds
 
@@ -95,14 +97,29 @@ public class Weegee : MonoBehaviour
     private GameObject currentHover;
     private int count = 0;
 
+    //LEADERBOARD
+    public string givenName = "";
+    public Highscores highscoreInstance;
+    
+
 
 
     //Method that is called when game begins
     private void Start()
     {
-     
-        Advertisement.Initialize("1490479");
         //PlayerPrefs.DeleteAll();
+
+
+
+
+
+
+        givenName = PlayerPrefs.GetString("name", givenName);
+        
+        print(givenName);
+
+        Advertisement.Initialize("1490479");
+        
         //set store
 
         //
@@ -124,6 +141,7 @@ public class Weegee : MonoBehaviour
         timerText.gameObject.SetActive(false);
         coinsText.SetActive(false);
         shopMenu.SetActive(false);
+        leaderboardMenu.SetActive(false);
         //Retrieve highscore and coins from memory, and then display them
         high = PlayerPrefs.GetInt("highscore", high);
         coins = PlayerPrefs.GetInt("coins", coins);
@@ -138,6 +156,40 @@ public class Weegee : MonoBehaviour
 
         //Debug.Log(blockChoice);
 
+    }
+
+    public void disableFirstTimePanel() {
+        highscoreInstance.AddNewHighscore(givenName, high);
+        if (givenName != "")
+        {
+            firstTimePanel.SetActive(false);
+        }
+    }
+
+    public void changeName()
+    { 
+        firstTimePanel.SetActive(true);
+        currentNameText.text = givenName;
+        
+    }
+
+    IEnumerator DeletePreviousName(string username) {
+        //Debug.Log("fdsafsdsa");
+        string str = "http://dreamlo.com/lb/Gb56EkuTUkCJ8zZTcu1AMQ9fh4a7Ddd0GKDXLeQl5_fA/delete/" + username;
+        //print("http://dreamlo.com/lb/Gb56EkuTUkCJ8zZTcu1AMQ9fh4a7Ddd0GKDXLeQl5_fA/delete/" + username);
+        WWW www = new WWW(str);
+        yield return www;
+    }
+
+    public void saveName(String str) {
+
+        StartCoroutine(DeletePreviousName(givenName));
+
+        PlayerPrefs.SetString("name", str);
+        
+        givenName = PlayerPrefs.GetString("name", givenName);
+
+        //Debug.Log(givenName);
     }
 
     public void setFirstTime(bool b)
@@ -159,11 +211,13 @@ public class Weegee : MonoBehaviour
         {
             audio1.clip = soundEffect;
             audio1.Play();
+            count = 0;
         }
     }
 
     public void OpenShop()
     {
+
         //Debug.Log("shop open");
         shopMenu.SetActive(true);
         gameButtons.SetActive(false);
@@ -800,6 +854,8 @@ public class Weegee : MonoBehaviour
         }
     }
 
+
+
     public void ResetGame()
     {
         firstTime = false;
@@ -817,6 +873,8 @@ public class Weegee : MonoBehaviour
         level = 0;
         blockNum = 1;
         score = -1;
+
+        highscoreInstance.AddNewHighscore(givenName, high);
     }
 
     public void deleteCollectibles(String tag)
@@ -860,6 +918,20 @@ public class Weegee : MonoBehaviour
         }
     }
 
+    public void openLeaderboardMenu() {
+
+        #region //setActives
+        gameButtons.SetActive(false);
+        deathMenu.SetActive(false);
+        mainMenu.SetActive(false);
+        shopMenu.SetActive(false);
+        coinsText.SetActive(false);
+        leaderboardMenu.SetActive(true);
+        #endregion
+
+
+    }
+
     //Called when returning to the main menu, toggles all other buttons off.
     public void goToMenu()
     {
@@ -868,6 +940,7 @@ public class Weegee : MonoBehaviour
         mainMenu.SetActive(true);
         shopMenu.SetActive(false);
         coinsText.SetActive(false);
+        leaderboardMenu.SetActive(false);
     }
 
     public void loseMoney(int cost)
