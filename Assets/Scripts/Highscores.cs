@@ -51,11 +51,14 @@ public class Highscores : MonoBehaviour
 
         if (string.IsNullOrEmpty(www.error))
         {
+            print("Successfully downloaded scores");
             FormatHighscores(www.text);
         }
         else
         {
             print("error pulling: " + www.error);
+            highscoreName[0].text = "unable to aquire highscores.";
+            highscoreName[1].text = "service is offline / check your Wifi";
         }
     }
 
@@ -83,7 +86,7 @@ public class Highscores : MonoBehaviour
             highscoreName[i].text = "";
             highscoreScore[i].text = "";
 
-            highscoreName[i].text =  highscoresList[i].username;
+            highscoreName[i].text =  (i+1) + ". " + highscoresList[i].username;
             highscoreScore[i].text = highscoresList[i].score.ToString();
             
             

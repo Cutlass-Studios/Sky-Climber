@@ -530,7 +530,7 @@ public class Weegee : MonoBehaviour
             {
                 falling = true;
                 disablePowerUps();
-                Vector3 newVector = new Vector3(gameObject.GetComponent<Transform>().position.x, GameObject.Find("mc_dirt (6)EPIC").GetComponent<Transform>().position.y + 8, gameObject.GetComponent<Transform>().position.z);
+                Vector3 newVector = new Vector3(gameObject.GetComponent<Transform>().position.x, GameObject.Find("largeGrassGround").GetComponent<Transform>().position.y + 12, gameObject.GetComponent<Transform>().position.z);
                 gameObject.GetComponent<Transform>().position = newVector;
             }
         }
@@ -818,7 +818,7 @@ public class Weegee : MonoBehaviour
             //player now on ground. 
             falling = false;
 
-            reviveText.text = "Cost: $" + ((100 + blockNum) * consecutiveRevives).ToString();
+            reviveText.text = "Cost: $" + (int)((100 + blockNum) * Mathf.Pow(consecutiveRevives, 1.5f));
 
             //create an area for every game object with certain tag. destroys all these items. in this case destroys all coins (so player doesnt see them when going back up)
             deleteCollectibles("Coin");
@@ -839,7 +839,7 @@ public class Weegee : MonoBehaviour
 
     public void Revive()
     {
-        int cost = (100 + blockNum) * consecutiveRevives;
+        int cost = (int)((100 + blockNum) * Mathf.Pow(consecutiveRevives, 1.5f));
         if (coins >= cost)
         {
             loseMoney(cost);
