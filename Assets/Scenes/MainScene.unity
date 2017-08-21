@@ -676,7 +676,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 1cf0c795638b1e647914290d670ad179, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3144dfb93b9cc3f4d9638db00ff7408b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -725,7 +725,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 286, y: -288}
+  m_AnchoredPosition: {x: 286, y: -177}
   m_SizeDelta: {x: 58.4, y: 21.65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &104946710
@@ -12842,17 +12842,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c4e4eb24a9a386f4fb52878c4ad5ed4d, type: 3}
   - {fileID: 21300000, guid: 243be49934e2d8d4fbec5726cd951319, type: 3}
   - {fileID: 21300000, guid: 855f57d18b56b704bbb9d3b5059db7f9, type: 3}
-  - {fileID: 21300000, guid: d7e813577d5a65842b1e366cdcb5143e, type: 3}
-  - {fileID: 21300000, guid: f9cece78055dd6249b8493c859f2c17e, type: 3}
-  - {fileID: 21300000, guid: d1b33a7b5e861c54cacee8cb0b88129f, type: 3}
-  - {fileID: 21300000, guid: 7197b91a489ddb346ae465753e8497d3, type: 3}
-  - {fileID: 21300000, guid: 0c98c1d76a6eecf4fa7e7ab1f672407b, type: 3}
+  - {fileID: 21300000, guid: a7f2664297afdab4fb04de01762562df, type: 3}
+  - {fileID: 21300000, guid: 97a5d3a4010251942904997883689bf1, type: 3}
+  - {fileID: 21300000, guid: c6c2769c33cb1e644a0db98afa542c3b, type: 3}
+  - {fileID: 21300000, guid: d486cc28275b02449a98af7d86de3166, type: 3}
+  - {fileID: 21300000, guid: af426a9934b4e5c4aa0c4d47499de0d5, type: 3}
   - {fileID: 21300000, guid: 9c1849add0f8c374f8e9b3e8e002243b, type: 3}
   - {fileID: 21300000, guid: 14aac285943c10149a2069ce555c368d, type: 3}
   - {fileID: 21300000, guid: ae63ccdc6557c6e40994997f6062f8b3, type: 3}
   - {fileID: 21300000, guid: 6e4121bb382ce0c41ab4edb10b397d75, type: 3}
   - {fileID: 21300000, guid: 56fe4b8afeb280541a7ff26a17345e06, type: 3}
-  - {fileID: 21300000, guid: e4fef7a895c653c4a892143cb562311c, type: 3}
+  - {fileID: 21300000, guid: 0be3496d5a9fd044eb33e518ebe67d49, type: 3}
   - {fileID: 21300000, guid: 474a248bfe2f1904d8c725fb0e08dd0d, type: 3}
   - {fileID: 21300000, guid: 838f6f5e798a25542972624fa7c3f616, type: 3}
   - {fileID: 21300000, guid: 16e0a14cdaca18f41939652ee372efd2, type: 3}
