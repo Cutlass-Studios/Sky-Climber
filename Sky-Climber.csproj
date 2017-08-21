@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraCrop.cs" />
+    <Compile Include="Assets\Scripts\Highscores.cs" />
     <Compile Include="Assets\Scripts\Swipe.cs" />
     <Compile Include="Assets\Scripts\Weegee.cs" />
   </ItemGroup>

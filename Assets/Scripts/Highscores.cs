@@ -16,6 +16,32 @@ public class Highscores : MonoBehaviour
 
     public Text[] highscoreName;
     public Text[] highscoreScore;
+    public string textStreamFromInternet;
+
+
+
+    public bool IsNameTaken(string str)
+    {
+        string[] entries = textStreamFromInternet.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        highscoresList = new Highscore[entries.Length];
+
+
+
+        for (int i = 0; i < highscoresList.Length; i++) {
+
+            string[] entryInfo = entries[i].Split(new char[] { '|' });
+            string username = entryInfo[0];
+            int score = int.Parse(entryInfo[1]);
+            highscoresList[i] = new Highscore(username, score);
+
+            print(highscoresList[i].username);
+
+            if (str.Equals(highscoresList[i].username)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public void AddNewHighscore(string username, int score)
     {
@@ -52,6 +78,7 @@ public class Highscores : MonoBehaviour
         if (string.IsNullOrEmpty(www.error))
         {
             print("Successfully downloaded scores");
+            textStreamFromInternet = www.text;
             FormatHighscores(www.text);
         }
         else
@@ -61,6 +88,8 @@ public class Highscores : MonoBehaviour
             highscoreName[1].text = "service is offline / check your Wifi";
         }
     }
+
+
 
     void FormatHighscores(string textStream)
     {
@@ -91,6 +120,15 @@ public class Highscores : MonoBehaviour
             
             
             //print(highscoresList[i].username + ": " + highscoresList[i].score);
+        }
+    }
+
+    public void ClearLeaderboard()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            highscoreName[i].text = "";
+            highscoreScore[i].text = "";
         }
     }
 }

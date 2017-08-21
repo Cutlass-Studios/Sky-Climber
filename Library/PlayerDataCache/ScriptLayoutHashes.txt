@@ -1,8 +1,9 @@
 Android
 aff4bf907dfcbc35b490163bf84c12b7 Assembly-CSharp.dll:.Swipe
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.Editor.dll:UnityEngine.Advertisements.Editor.Placeholder
-e480d1a3a0f26651f3b9d02971a97db7 Assembly-CSharp.dll:.Weegee
+4660599e2dbd12c69a50315d995cf843 Assembly-CSharp.dll:.Weegee
 c8d0113eb5f1c20db90147c914c154e8 Assembly-CSharp.dll:.CameraCrop
+e911dc5a4a98f127179bd08b71333150 Assembly-CSharp.dll:.Highscores
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingRenderer

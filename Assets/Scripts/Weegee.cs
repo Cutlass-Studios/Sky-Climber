@@ -107,16 +107,16 @@ public class Weegee : MonoBehaviour
     //Method that is called when game begins
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
+     // PlayerPrefs.DeleteAll();
 
 
 
 
-
-
-        givenName = PlayerPrefs.GetString("name", givenName);
         
-        print(givenName);
+
+        givenName = PlayerPrefs.GetString("name","player1");
+        
+        //print(givenName);
 
         Advertisement.Initialize("1490479");
         
@@ -159,6 +159,7 @@ public class Weegee : MonoBehaviour
     }
 
     public void disableFirstTimePanel() {
+        highscoreInstance.ClearLeaderboard();
         highscoreInstance.AddNewHighscore(givenName, high);
         if (givenName != "")
         {
@@ -183,13 +184,16 @@ public class Weegee : MonoBehaviour
 
     public void saveName(String str) {
 
-        StartCoroutine(DeletePreviousName(givenName));
+        //CHECK IF NAME IS ON LEADERBOARD ALREADY
+        if (highscoreInstance.IsNameTaken(str)) {
+            StartCoroutine(DeletePreviousName(givenName));
+            PlayerPrefs.SetString("name", str);
+            givenName = PlayerPrefs.GetString("name", givenName);
+        }
 
-        PlayerPrefs.SetString("name", str);
-        
-        givenName = PlayerPrefs.GetString("name", givenName);
 
-        //Debug.Log(givenName);
+
+
     }
 
     public void setFirstTime(bool b)
@@ -320,6 +324,7 @@ public class Weegee : MonoBehaviour
             }
             else
             {
+              
                 Vector3 newVector = new Vector3(GameObject.Find("Buy 2 (" + (blockChoice - 16) + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 2 (" + (blockChoice - 16) + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 2 (" + (blockChoice - 16) + ")").GetComponent<Transform>().position.z);
                 GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
             }
@@ -979,6 +984,7 @@ public class Weegee : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("Block" + blockNumber, 0) == 1)
         {
+           
             blockChoice = blockNumber;
             PlayerPrefs.SetInt("BlockNumber", blockChoice);
         }
@@ -988,7 +994,7 @@ public class Weegee : MonoBehaviour
     {
         if (coins - prices[blockNumber + 16] >= 0 && PlayerPrefs.GetInt("Block2" + blockNumber, 0) == 0)
         {
-            //Debug.Log("BOUGHT");
+            Debug.Log("BOUGHT");
             for (int i = 0; i < 14; i++)
             {
                 GameObject.Find("Buy 2 (" + blockNumber + ")").GetComponent<Outline>().effectColor = Color.black;
@@ -1006,6 +1012,7 @@ public class Weegee : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("Block2" + blockNumber, 0) == 1)
         {
+     
             blockChoice = blockNumber+16;
             PlayerPrefs.SetInt("BlockNumber", blockChoice);
         }
@@ -1035,13 +1042,15 @@ public class Weegee : MonoBehaviour
             //GameObject.Find("BlockPage1").GetComponent<Swipe>().pageNum
             if (PlayerPrefs.GetInt("Block" + blockNumber, 0) == 1 || blockNumber == 0)
             {
-                blockChoice = blockNumber;
+           
+          
                 PlayerPrefs.SetInt("BlockNumber", blockChoice);
                 Vector3 newVector;
                 if (blockChoice <= 13)
                 {
-                    //Debug.Log("Page 1");
-                    newVector = new Vector3(GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.z);
+                blockNumber = blockChoice;
+                print(blockNumber);
+                newVector = new Vector3(GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 1 (" + blockNumber + ")").GetComponent<Transform>().position.z);
                     GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
                     //Debug.Log("MOVING GREEN");
                 }
@@ -1051,7 +1060,7 @@ public class Weegee : MonoBehaviour
             {
                 if (blockNumber > 14)
                 {
-                    //Debug.Log("Page 2");
+                    Debug.Log("Page 2");
                     Vector3 newVector1;
                     int nibChoice = blockNumber - 16;
 
