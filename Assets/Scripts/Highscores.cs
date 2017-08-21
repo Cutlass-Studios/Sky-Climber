@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Highscores : MonoBehaviour
 {
 
-    //http://dreamlo.com/lb/Gb56EkuTUkCJ8zZTcu1AMQ9fh4a7Ddd0GKDXLeQl5_fA
+    
 
     const string privateCode = "Gb56EkuTUkCJ8zZTcu1AMQ9fh4a7Ddd0GKDXLeQl5_fA";
     const string publicCode = "599734bb6b2b65188c173762";
