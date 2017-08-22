@@ -121,7 +121,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 5.5
+  bundleVersion: 10.0
   preloadedAssets: []
   metroInputSource: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -142,7 +142,9 @@ PlayerSettings:
   resolutionScalingMode: 0
   applicationIdentifier:
     Android: com.cutlassstudios.test
-  buildNumber: {}
+    iOS: com.CutlassStudios.SkyClimber
+  buildNumber:
+    iOS: 9
   AndroidBundleVersionCode: 10
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
@@ -161,7 +163,7 @@ PlayerSettings:
     serializedVersion: 2
     m_Bits: 238
   iPhoneSdkVersion: 988
-  iOSTargetOSVersionString: 7.0
+  iOSTargetOSVersionString: 10.3
   tvOSSdkVersion: 0
   tvOSRequireExtendedGameController: 0
   tvOSTargetOSVersionString: 
@@ -210,7 +212,7 @@ PlayerSettings:
   metalEditorSupport: 1
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
-  appleDeveloperTeamID: 
+  appleDeveloperTeamID: VB5SEL5V62
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
   appleEnableAutomaticSigning: 0
@@ -232,7 +234,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 6c1f41d2292021f4c9e7fcfbc47da32a, type: 3}
+      m_Icon: {fileID: 2800000, guid: 64a848040f9c2a249b60ab7b5a375310, type: 3}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching: []
