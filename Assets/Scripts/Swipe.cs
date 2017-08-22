@@ -1,6 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Swipe : MonoBehaviour
 {
@@ -9,7 +15,7 @@ public class Swipe : MonoBehaviour
     public static bool isDragging;
 
 
-    private int dragRadius = 100;
+    private int dragRadius = 150;
     public Vector2 startTouch, swipeDelta;
     public GameObject obj;
     //public int swipeDistance;
@@ -23,6 +29,7 @@ public class Swipe : MonoBehaviour
     //public Vector2 SwipeDelta { get { return swipeDelta; } }
     public void Start()
     {
+        GameObject.Find("Circle 1").GetComponent<Image>().color = Color.green;
         swipeLeft = swipeRight = swipeDown = swipeRight = 4 > 9;
     }
 
@@ -75,16 +82,20 @@ public class Swipe : MonoBehaviour
                 swipeDelta = (Vector2)Input.mousePosition - startTouch;
             }
 
+            /*
             //MENU FOLLOWS TOUCH
             if (Input.touches.Length != 0)
             {
                 if (pageNum == 0)
                 {
                     obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.touches[0].position.x - startTouch.x, obj.GetComponent<RectTransform>().localPosition.y);
+                
                 }
                 else
                 {
                     obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.touches[0].position.x - startTouch.x - 807, obj.GetComponent<RectTransform>().localPosition.y);
+                 
+
                 }
             }
             //MENU FOLLOWS CURSOR
@@ -99,6 +110,7 @@ public class Swipe : MonoBehaviour
                     obj.GetComponent<RectTransform>().localPosition = new Vector3(Input.mousePosition.x - startTouch.x - 807, obj.GetComponent<RectTransform>().localPosition.y);
                 }
             }
+            */
 
         }
         //RESETTING POSITION
@@ -173,6 +185,8 @@ public class Swipe : MonoBehaviour
         //obj.GetComponent<RectTransform>().localPosition =
         //    new Vector3(obj.GetComponent<RectTransform>().localPosition.x + swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
         pageNum--;
+        GameObject.Find("Circle 4").GetComponent<Image>().color = Color.white;
+        GameObject.Find("Circle 1").GetComponent<Image>().color = Color.green;
     }
 
     private void moveLeft()
@@ -186,7 +200,8 @@ public class Swipe : MonoBehaviour
 
         //obj.GetComponent<RectTransform>().localPosition =
         //new Vector3(obj.GetComponent<RectTransform>().localPosition.x - swipeDistance, obj.GetComponent<RectTransform>().localPosition.y);
-
+        GameObject.Find("Circle 4").GetComponent<Image>().color = Color.green;
+        GameObject.Find("Circle 1").GetComponent<Image>().color = Color.white;
         pageNum++;
     }
 

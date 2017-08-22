@@ -221,7 +221,7 @@ public class Weegee : MonoBehaviour
 
     public void OpenShop()
     {
-
+        
         //Debug.Log("shop open");
         shopMenu.SetActive(true);
         gameButtons.SetActive(false);
@@ -260,7 +260,8 @@ public class Weegee : MonoBehaviour
         //Vector3 newVector = new Vector3(GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.x, GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.y, GameObject.Find("Buy 1 (" + blockChoice + ")").GetComponent<Transform>().position.z);
         //GameObject.Find("GreenBorder").GetComponent<Transform>().position = newVector;
         purchaseBlock(blockChoice);
-
+        GameObject.Find("Circle 4").GetComponent<Image>().color = Color.white;
+        GameObject.Find("Circle 1").GetComponent<Image>().color = Color.green;
     }
     public void toggleSound()
     {
